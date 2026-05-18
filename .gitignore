@@ -1,0 +1,52 @@
+node_modules
+.next
+.expo
+.turbo
+dist
+build
+coverage
+__pycache__
+.pytest_cache
+.venv
+.DS_Store
+tmp
+apps/web/out/
+apps/web/next-env.d.ts
+*.tsbuildinfo
+
+# === Secrets — never commit ===
+.env
+.env.*
+!.env.example
+*.env.bak
+**/credentials*.json
+**/service-account*.json
+**/*-key.json
+*.pem
+*.key
+*.p12
+*.pfx
+
+# === Local data / artifacts ===
+/data
+/data/artifacts/*
+!/data/artifacts/.gitkeep
+.local-data/
+
+# === Evaluation runs (contains real user/customer data) ===
+eval-runs/*
+!eval-runs/.gitkeep
+review-reports/
+eval-history.csv
+
+# === Build / runtime outputs ===
+scripts/out/
+
+# === Cloud / deploy artifacts ===
+.vercel
+.wrangler
+gcloud-key.json
+
+# === Claude Code runtime ===
+.claude/scheduled_tasks.lock
+

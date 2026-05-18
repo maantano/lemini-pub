@@ -1,0 +1,22 @@
+{
+  "name": "@kr-law-rag/web",
+  "private": true,
+  "scripts": {
+    "dev": "rm -rf .next out && next dev",
+    "build": "next build",
+    "preview": "python3 -m http.server 3000 --directory out",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "16.2.2",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "recharts": "^3.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.14.1",
+    "@types/react": "19.0.12",
+    "@types/react-dom": "19.0.4",
+    "typescript": "5.8.3"
+  }
+}

@@ -1,0 +1,14 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-f'
+      - 'Dockerfile.sync'
+      - '-t'
+      - 'gcr.io/<your-gcp-project>/lemini-data-sync:latest'
+      - '.'
+images:
+  - 'gcr.io/<your-gcp-project>/lemini-data-sync:latest'
+timeout: '900s'
+options:
+  machineType: 'E2_HIGHCPU_8'

@@ -1,0 +1,26 @@
+{
+  "name": "kr-law-rag-mvp",
+  "private": true,
+  "packageManager": "pnpm@10.28.0",
+  "workspaces": [
+    "apps/web",
+    "apps/mobile"
+  ],
+  "scripts": {
+    "dev": "rm -rf apps/web/.next && concurrently -n api,web -c blue,green \".venv/bin/uvicorn apps.api.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir packages/python/src --reload-dir apps/api\" \"pnpm --filter @kr-law-rag/web dev\"",
+    "dev:web": "rm -rf apps/web/.next && pnpm --filter @kr-law-rag/web dev",
+    "dev:mobile": "pnpm --filter @kr-law-rag/mobile start",
+    "build:web": "pnpm --filter @kr-law-rag/web build",
+    "preview:web": "pnpm --filter @kr-law-rag/web preview",
+    "lint:web": "pnpm --filter @kr-law-rag/web lint",
+    "api:dev": ".venv/bin/uvicorn apps.api.main:app --host 0.0.0.0 --port 8000",
+    "ingest:sample": ".venv/bin/python -m worker.ingest.run --input ./data/sample --mode minimal --apply-schema",
+    "artifacts:clean": "rm -f data/artifacts/laws.sqlite data/artifacts/article_embeddings.npy data/artifacts/article_embedding_ids.json data/artifacts/manifest.json data/artifacts/state.sqlite",
+    "artifacts:sync": "bash ./scripts/sync-artifacts.sh",
+    "docker:build:api": "docker build -f apps/api/Dockerfile -t kr-law-rag-api .",
+    "deploy:api": "bash ./scripts/deploy-cloud-run.sh"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

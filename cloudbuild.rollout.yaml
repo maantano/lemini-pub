@@ -1,0 +1,130 @@
+# Cloud Build rollout 파이프라인
+#
+# 용도: 주간 Cloud Run Job 실행 결과 (GCS 에 수집된 법령·행정규칙) 를
+#       최신 DB 로 재생성 → 새 lemini-api 이미지 빌드 → Cloud Run revision 배포
+#
+# 트리거:
+#   gcloud builds triggers create manual \
+#     --name=lemini-rollout-trigger \
+#     --build-config=cloudbuild.rollout.yaml
+#   gcloud builds triggers run lemini-rollout-trigger
+
+steps:
+  # 1. GCS 에서 수집된 마크다운 전체 다운로드
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'download-gcs'
+    args:
+      - 'storage'
+      - 'cp'
+      - '-r'
+      - 'gs://lemini-sync-data/*'
+      - '/workspace/collected/'
+    allowFailure: true  # 버킷 비어있을 수 있음 (최초 실행)
+
+  # 2. 최신 DB 백업 다운로드 (base 로 삼음)
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'download-backup'
+    args: ['bash', '-c', |
+      set -e
+      LATEST=$(gcloud storage ls gs://lemini-law-artifacts-backups/ | sort | tail -1)
+      echo "Base backup: $LATEST"
+      mkdir -p /workspace/artifacts
+      gcloud storage cp "$LATEST" /workspace/artifacts/laws.sqlite
+    ]
+
+  # 3. Python 환경에서 ingest (수집된 마크다운을 base DB 에 append)
+  - name: 'python:3.12'
+    id: 'ingest'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        set -e
+        pip install --quiet -e '.[sync]'
+        export ARTIFACT_DIR=/workspace/artifacts
+        export PYTHONPATH=/workspace/packages/python/src
+        python scripts/append_admrul_bulk.py /workspace/collected/
+
+  # 4. 새 lemini-api 이미지 빌드 (updated laws.sqlite 포함)
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build-api'
+    args:
+      - 'build'
+      - '-t'
+      - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/cloud-run-source-deploy/lemini-api:v${BUILD_ID}'
+      - '-f'
+      - 'Dockerfile'
+      - '/workspace'
+
+  # 5. 이미지 푸시
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push-api'
+    args:
+      - 'push'
+      - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/cloud-run-source-deploy/lemini-api:v${BUILD_ID}'
+
+  # 6. --no-traffic 으로 Cloud Run 새 revision 배포
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'deploy-staging'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'lemini-api'
+      - '--image=asia-northeast3-docker.pkg.dev/${PROJECT_ID}/cloud-run-source-deploy/lemini-api:v${BUILD_ID}'
+      - '--region=asia-northeast3'
+      - '--no-traffic'
+      - '--tag=auto'
+
+  # 7. Smoke test (staging URL 에 3개 질문)
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'smoke-test'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        set -e
+        STAGING_URL=$(gcloud run services describe lemini-api \
+          --region=asia-northeast3 \
+          --format="value(status.traffic[?(@.tag=='auto')].url)" | head -1)
+        echo "Staging URL: $STAGING_URL"
+
+        for Q in "민법 제750조 내용?" "공정위 표준약관 해약 조건?" "제약 공정경쟁규약 학술대회 지원?"; do
+          echo "Testing: $Q"
+          RESP=$(curl -sS -X POST "$STAGING_URL/chat" \
+            -H 'Content-Type: application/json' \
+            -d "{\"question\":\"$Q\",\"save\":false,\"stream\":false}" \
+            --max-time 60)
+          ANSWER_LEN=$(echo "$RESP" | python3 -c 'import sys,json; print(len(json.load(sys.stdin).get("answer","")))')
+          echo "  answer length: $ANSWER_LEN"
+          if [ "$ANSWER_LEN" -lt 50 ]; then
+            echo "  FAIL: answer too short"
+            exit 1
+          fi
+        done
+        echo "Smoke test PASSED"
+
+  # 8. 트래픽 100% 전환
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'promote'
+    args:
+      - 'run'
+      - 'services'
+      - 'update-traffic'
+      - 'lemini-api'
+      - '--to-latest'
+      - '--region=asia-northeast3'
+
+  # 9. 새 DB 를 백업 버킷에도 저장 (다음 rollout 의 base)
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'backup-new'
+    args:
+      - 'storage'
+      - 'cp'
+      - '/workspace/artifacts/laws.sqlite'
+      - 'gs://lemini-law-artifacts-backups/laws.sqlite.${BUILD_ID}.bak'
+
+timeout: 3600s
+
+options:
+  machineType: 'E2_HIGHCPU_8'
+  logging: CLOUD_LOGGING_ONLY

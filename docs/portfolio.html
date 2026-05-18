@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<title>Korean Legal RAG · System Design Portfolio</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="description" content="한국 법령 RAG 시스템 설계 — Hybrid Retrieval, Multi-Chain Document Review, Safe Rollout." />
+<style>
+  :root {
+    --bg: #0b0d12;
+    --bg-2: #12151d;
+    --bg-3: #1a1e2a;
+    --line: #252b3a;
+    --line-2: #353c50;
+    --fg: #eef0f6;
+    --fg-2: #aeb6ca;
+    --fg-3: #7a8298;
+    --accent: #88a8ff;
+    --accent-2: #c2a5ff;
+    --warn: #ffb86b;
+    --ok: #7fe0ad;
+    --danger: #ff7e98;
+    --chip: #1f2533;
+    --code-bg: #0e1118;
+    --shadow: 0 14px 40px rgba(0,0,0,.45);
+    --radius: 14px;
+    --max-w: 1180px;
+  }
+  html[data-theme="light"] {
+    --bg: #f7f8fc; --bg-2: #ffffff; --bg-3: #eef1f7; --line: #e0e4ee; --line-2: #c8cfdd;
+    --fg: #111621; --fg-2: #424a5e; --fg-3: #7a8298; --accent: #2a4dff; --accent-2: #7c5cff;
+    --warn: #b6620f; --ok: #1f8b54; --danger: #c33b5d; --chip: #eef0f7; --code-bg: #f1f3f9;
+    --shadow: 0 10px 30px rgba(16,22,40,.06);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg);
+    font: 15px/1.62 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Pretendard",
+      "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 13px;
+    background: var(--code-bg); border: 1px solid var(--line); padding: 1px 6px;
+    border-radius: 5px; color: var(--fg); }
+  kbd { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 11.5px;
+    background: var(--chip); border: 1px solid var(--line); border-bottom-width: 2px;
+    padding: 1px 6px; border-radius: 5px; color: var(--fg-2); }
+
+  /* nav */
+  .topbar { position: sticky; top: 0; z-index: 20;
+    backdrop-filter: saturate(140%) blur(10px);
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    border-bottom: 1px solid var(--line); }
+  .topbar .inner { max-width: var(--max-w); margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 24px; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand .logo { width: 30px; height: 30px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: grid; place-items: center; color: white; font-weight: 800; font-size: 13px; }
+  .brand .name { font-weight: 700; letter-spacing: .2px; font-size: 14.5px; }
+  .nav-links { display: flex; gap: 4px; flex-wrap: wrap; }
+  .nav-links a { color: var(--fg-2); padding: 7px 12px; border-radius: 8px; font-size: 13px; }
+  .nav-links a:hover { background: var(--bg-3); color: var(--fg); text-decoration: none; }
+  .nav-links a.active { color: var(--fg); background: var(--bg-3); }
+  .btn { display: inline-flex; align-items: center; gap: 6px; background: var(--bg-3);
+    border: 1px solid var(--line); color: var(--fg-2); padding: 7px 12px; border-radius: 8px;
+    font-size: 12.5px; cursor: pointer; user-select: none; }
+  .btn:hover { color: var(--fg); border-color: var(--line-2); }
+
+  /* layout */
+  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 60px 24px 80px; }
+  .wrap section { padding-top: 60px; margin-top: -40px; /* anchor offset */ }
+
+  /* hero */
+  .hero { padding: 70px 0 24px; border-bottom: 1px solid var(--line); }
+  .hero .eyebrow { color: var(--accent); font-size: 12.5px; letter-spacing: .2em;
+    text-transform: uppercase; font-weight: 700; margin-bottom: 14px; }
+  .hero h1 { font-size: 44px; line-height: 1.18; margin: 0 0 18px; letter-spacing: -.5px;
+    font-weight: 800; max-width: 900px; }
+  .hero h1 .accent { background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p.lede { font-size: 17px; color: var(--fg-2); max-width: 760px; margin: 0 0 22px; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px 16px; color: var(--fg-3);
+    font-size: 13px; margin-top: 22px; }
+  .meta-row .item { display: inline-flex; align-items: center; gap: 6px; }
+  .meta-row .item b { color: var(--fg-2); font-weight: 600; }
+  .meta-row .dot { width: 4px; height: 4px; background: var(--fg-3); border-radius: 50%; opacity: .5; }
+  .stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+  .chip { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px;
+    background: var(--chip); color: var(--fg-2); border-radius: 999px; font-size: 12px;
+    border: 1px solid var(--line); }
+
+  /* section header */
+  .sec-head { margin: 0 0 8px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .sec-head .n { color: var(--accent); font-size: 13px; font-weight: 700; letter-spacing: .15em; }
+  .sec-head h2 { font-size: 28px; margin: 0; letter-spacing: -.3px; font-weight: 800; }
+  .sec-sub { color: var(--fg-2); font-size: 15px; max-width: 760px; margin: 0 0 28px; }
+
+  /* metric strip */
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px; margin: 22px 0 0; }
+  .metric { background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px 18px; position: relative; overflow: hidden; }
+  .metric::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2)); opacity: .65; }
+  .metric .v { font-size: 26px; font-weight: 800; letter-spacing: -.5px; line-height: 1; }
+  .metric .v .unit { font-size: 14px; color: var(--fg-2); font-weight: 600; margin-left: 2px; }
+  .metric .k { font-size: 12.5px; color: var(--fg-3); text-transform: uppercase;
+    letter-spacing: .12em; margin-top: 8px; }
+
+  /* case block: diagram + decision panel */
+  .case { background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius);
+    overflow: hidden; box-shadow: var(--shadow); margin-top: 22px; }
+  .case-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 0; }
+  @media (max-width: 920px) { .case-grid { grid-template-columns: 1fr; } }
+  .diagram { padding: 22px 22px 18px; border-right: 1px solid var(--line);
+    background:
+      radial-gradient(circle at 50% 0%, rgba(136,168,255,.06), transparent 60%),
+      repeating-linear-gradient(0deg, transparent 0 23px, rgba(127,127,127,.04) 23px 24px),
+      repeating-linear-gradient(90deg, transparent 0 23px, rgba(127,127,127,.04) 23px 24px),
+      var(--bg-2);
+    overflow: auto; }
+  @media (max-width: 920px) { .diagram { border-right: 0; border-bottom: 1px solid var(--line); } }
+  .diagram .title-row { display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px; color: var(--fg-3); font-size: 12px; }
+  .diagram .title-row .ti { font-family: ui-monospace, Menlo, Consolas, monospace; }
+  .diagram-host { min-height: 220px; }
+  .diagram-host svg { max-width: 100% !important; height: auto !important; display: block; margin: 0 auto; }
+  .diagram-host svg .nodeLabel, .diagram-host svg .edgeLabel, .diagram-host svg .cluster-label {
+    font-family: ui-sans-serif, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+    font-weight: 500 !important; }
+  .empty-rendering { color: var(--fg-3); padding: 60px 20px; text-align: center; font-size: 13px; }
+  .empty-rendering .spinner { display: inline-block; width: 16px; height: 16px;
+    border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%;
+    animation: spin .8s linear infinite; margin-right: 8px; vertical-align: -3px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .mermaid-error { color: var(--danger); padding: 20px; font-size: 12.5px; line-height: 1.6;
+    background: rgba(255,126,152,.06); border-radius: 8px; white-space: pre-wrap; }
+
+  .panel { padding: 22px 22px 24px; }
+  .panel .stage { font-size: 11px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .panel .stage::before { content: ""; width: 14px; height: 1px; background: currentColor; }
+  .panel .stage.problem { color: var(--warn); }
+  .panel .stage.approach { color: var(--accent); }
+  .panel .stage.tradeoff { color: var(--accent-2); }
+  .panel .stage.outcome { color: var(--ok); }
+  .panel .stage-body { color: var(--fg); font-size: 14.5px; margin: 0 0 16px; line-height: 1.65; }
+  .panel .stage-body b { color: var(--fg); font-weight: 700; background: rgba(136,168,255,.14);
+    padding: 0 4px; border-radius: 3px; }
+  .panel .stage-body ul { margin: 6px 0 0; padding-left: 18px; color: var(--fg-2); }
+  .panel .stage-body li { margin-bottom: 4px; }
+
+  /* skills/learning list */
+  .pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px; margin-top: 22px; }
+  .pillar { background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px 20px; position: relative; overflow: hidden; }
+  .pillar::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--accent); }
+  .pillar h3 { font-size: 15.5px; margin: 0 0 8px; letter-spacing: -.2px; }
+  .pillar p { color: var(--fg-2); margin: 0; font-size: 13.5px; line-height: 1.6; }
+
+  /* timeline / learnings */
+  .learnings { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; }
+  .learning { display: grid; grid-template-columns: 120px 1fr; gap: 18px; padding: 14px 0;
+    border-bottom: 1px dashed var(--line); }
+  .learning .when { color: var(--fg-3); font-size: 13px; font-family: ui-monospace, Menlo, monospace; }
+  .learning .what h4 { margin: 0 0 4px; font-size: 15px; }
+  .learning .what p { margin: 0; color: var(--fg-2); font-size: 13.5px; line-height: 1.6; }
+
+  /* footer */
+  footer { color: var(--fg-3); font-size: 12.5px; padding-top: 36px; border-top: 1px solid var(--line);
+    margin-top: 56px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer a { color: var(--fg-2); }
+
+  @media print {
+    .topbar, .btn { display: none !important; }
+    body { background: white !important; color: black !important; }
+    .case, .pillar, .metric { box-shadow: none !important; border-color: #ddd !important; }
+    .case-grid { grid-template-columns: 1fr !important; }
+    section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="inner">
+    <div class="brand">
+      <div class="logo">RAG</div>
+      <div class="name">Korean Legal RAG · System Design</div>
+    </div>
+    <nav class="nav-links" id="nav">
+      <a href="#overview">Overview</a>
+      <a href="#retrieval">Retrieval</a>
+      <a href="#review">Document Review</a>
+      <a href="#rollout">Safe Rollout</a>
+      <a href="#learnings">Learnings</a>
+    </nav>
+    <button class="btn" id="theme-toggle" title="테마">🌗</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="eyebrow">Solo Design &amp; Implementation · 2025–2026</div>
+    <h1>
+      한국 법령·판례 데이터로 답변하는<br/>
+      <span class="accent">신뢰 가능한 RAG 시스템</span> 설계
+    </h1>
+    <p class="lede">
+      국가법령정보 공동활용 API 기반의 법령·행정규칙·판례를 인덱싱하고,
+      <b>hybrid retrieval</b> + <b>multi-chain document review</b> + <b>안전 배포 파이프라인</b>으로
+      모델 환각(hallucination)과 도메인 편향을 줄이는 데 집중한 시스템.
+      백엔드부터 인프라까지 전 영역을 단독으로 설계·구현.
+    </p>
+    <div class="stack">
+      <span class="chip">Python · FastAPI</span>
+      <span class="chip">SQLite + FTS5</span>
+      <span class="chip">Vector Index (Gemini Embedding)</span>
+      <span class="chip">Google Gemini API</span>
+      <span class="chip">Cloud Run · Cloud Build · GCS</span>
+      <span class="chip">Next.js (Frontend, 별도 배포)</span>
+    </div>
+    <div class="meta-row">
+      <span class="item"><b>역할</b> 단독 설계·구현 (백엔드, RAG 파이프라인, 인프라, CI/CD)</span>
+      <span class="dot"></span>
+      <span class="item"><b>기간</b> 진행중</span>
+      <span class="dot"></span>
+      <span class="item"><b>도메인</b> 한국 법령·판례 Q&amp;A 및 문서 검토</span>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="v">3 <span class="unit">corpora</span></div>
+        <div class="k">법령 · 행정규칙 · 판례 통합 인덱싱</div>
+      </div>
+      <div class="metric">
+        <div class="v">Hybrid <span class="unit">3-way</span></div>
+        <div class="k">Lexical(FTS5) + Vector + Exact 결합</div>
+      </div>
+      <div class="metric">
+        <div class="v">5-chain <span class="unit">parallel</span></div>
+        <div class="k">문서 검토 다중 관점 병렬 호출</div>
+      </div>
+      <div class="metric">
+        <div class="v">No-traffic <span class="unit">deploy</span></div>
+        <div class="k">smoke 검증 후 100% 트래픽 전환</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section id="overview">
+    <div class="sec-head">
+      <span class="n">01 · ARCHITECTURE</span>
+      <h2>시스템 한눈에</h2>
+    </div>
+    <p class="sec-sub">
+      클라이언트 → API 게이트웨이 → RAG 코어 → 저장소·외부 API. 데이터 수집·인덱싱은
+      운영 트래픽과 분리된 배치 잡으로 운용해, 학습/임베딩이 응답 지연에 영향을 주지 않게 함.
+    </p>
+
+    <div class="case">
+      <div class="case-grid">
+        <div class="diagram">
+          <div class="title-row">
+            <span class="ti">overview.mmd</span>
+            <span>도메인: 한국 법령 RAG</span>
+          </div>
+          <div class="diagram-host" id="host-overview">
+            <div class="empty-rendering"><span class="spinner"></span>다이어그램 렌더 중…</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="stage problem">Problem</div>
+          <p class="stage-body">
+            법령·판례는 도메인 어휘가 무겁고 인용·근거가 핵심이라
+            범용 LLM만으로는 <b>환각·근거 불일치</b>가 잦음.
+            동시에 신뢰성을 위해 <b>인용 검증 가능한 컨텍스트</b>가 필요.
+          </p>
+          <div class="stage approach">Approach</div>
+          <p class="stage-body">
+            세 단계 분리:
+            <ul>
+              <li><b>Retrieval Core</b> — 의도 분석·키워드 확장·hybrid 검색을 한 서비스에 캡슐화</li>
+              <li><b>Answering / Review</b> — 검색 결과를 컨텍스트로 받아 구조화 응답</li>
+              <li><b>Data Pipeline</b> — 수집/임베딩/인덱싱을 운영과 분리된 배치로</li>
+            </ul>
+          </p>
+          <div class="stage tradeoff">Trade-off</div>
+          <p class="stage-body">
+            서비스 분리로 호출 hop이 늘어나 latency가 약간 증가. 대신
+            각 단계가 독립 캐시·재시도·관측 가능 — <b>장애 격리</b>와 <b>점진 개선</b>이 쉬워짐.
+          </p>
+          <div class="stage outcome">Outcome</div>
+          <p class="stage-body">
+            검색 품질·답변 품질·배포 안전을 <b>각각 따로 측정·개선</b>할 수 있는 구조.
+            한 영역의 회귀가 다른 영역으로 번지지 않음.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RETRIEVAL -->
+  <section id="retrieval">
+    <div class="sec-head">
+      <span class="n">02 · RETRIEVAL</span>
+      <h2>Hybrid Retrieval — 정확도와 다양성을 동시에</h2>
+    </div>
+    <p class="sec-sub">
+      법령 조문 정확도(<b>"제N조"는 정규식이 가장 강하다</b>)와 의도 유사도(<b>벡터 검색</b>)를
+      따로 다루지 않고 하나의 파이프라인에 묶음. 코퍼스 분포 편향 보정까지 마지막 단계로 포함.
+    </p>
+
+    <div class="case">
+      <div class="case-grid">
+        <div class="diagram">
+          <div class="title-row">
+            <span class="ti">retrieval.mmd</span>
+            <span>3-way Hybrid · Quota-aware</span>
+          </div>
+          <div class="diagram-host" id="host-retrieval">
+            <div class="empty-rendering"><span class="spinner"></span>다이어그램 렌더 중…</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="stage problem">Problem</div>
+          <p class="stage-body">
+            (1) 벡터 검색만으로는 <b>"제15조의2"</b> 같은 식별 표현을 못 잡음.
+            (2) lexical-only는 <b>paraphrase</b>에 약함.
+            (3) 인덱스의 대부분이 법령(statute)이라 행정규칙·자율규약이 top-k에서 항상 밀림.
+          </p>
+          <div class="stage approach">Approach</div>
+          <p class="stage-body">
+            <ul>
+              <li><b>3-way 동시 검색</b>: exact(정규식) + lexical(FTS5) + vector를 ThreadPool로 병렬 실행</li>
+              <li><b>의도 추출 + 키워드 확장</b>을 LLM으로 동시에 돌려 2차 lexical/vector 재검색</li>
+              <li>결과는 ID 기준 머지, 점수 정렬 후 <b>코퍼스별 minimum quota</b>로 다양성 보정</li>
+            </ul>
+          </p>
+          <div class="stage tradeoff">Trade-off</div>
+          <p class="stage-body">
+            LLM 호출이 retrieval 안에 들어가 비용·지연 증가.
+            대신 잘못된 청크가 LLM에 흘러들어가 답을 망치는 비용이 훨씬 크다고 판단 — 검색 단계에서 끊는 게 낫다.
+          </p>
+          <div class="stage outcome">Outcome</div>
+          <p class="stage-body">
+            소수 코퍼스(행정규칙·자율규약)가 항상 컨텍스트에 포함되어, <b>다층 규범</b>이 필요한 질문에서 답변 정합성 향상.
+            식별 표현이 들어간 질문은 exact가 안정적으로 잡아주므로 vector 가중을 무리하게 올리지 않아도 됨.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEW -->
+  <section id="review">
+    <div class="sec-head">
+      <span class="n">03 · DOCUMENT REVIEW</span>
+      <h2>Multi-Chain Review — 단일 호출의 한계를 분해</h2>
+    </div>
+    <p class="sec-sub">
+      계약서·약관 검토는 단일 프롬프트 한 번으로 처리하면 길이·관점이 한쪽으로 쏠림.
+      <b>관점을 분해해 병렬 호출</b>하고, 마지막에 병합·정규화하는 방식으로 빠르고 균형 잡힌 결과를 만든다.
+    </p>
+
+    <div class="case">
+      <div class="case-grid">
+        <div class="diagram">
+          <div class="title-row">
+            <span class="ti">review.mmd</span>
+            <span>5-chain · ThreadPool 병렬</span>
+          </div>
+          <div class="diagram-host" id="host-review">
+            <div class="empty-rendering"><span class="spinner"></span>다이어그램 렌더 중…</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="stage problem">Problem</div>
+          <p class="stage-body">
+            장문 문서에 대한 단일 프롬프트 검토는
+            (1) <b>컨텍스트 토큰 한계</b>로 누락이 생기고, (2) "리스크/목적/제도" 중 한 관점만 부각되며,
+            (3) 사용자가 기다리는 동안 <b>응답 지연</b>이 길어짐.
+          </p>
+          <div class="stage approach">Approach</div>
+          <p class="stage-body">
+            <ul>
+              <li><b>스캔 → 관점 분해</b>: 조항 파싱 후, 제도 / 목적 / 위험 / 판단 4관점을 <b>병렬</b>로 호출</li>
+              <li><b>관점별 RAG</b>: 각 관점의 lookup 쿼리로 별도 청크 보강 (한 컨텍스트에 다 못 담는 문제 해결)</li>
+              <li><b>통합 호출 안전망</b>: 병렬 결과 누락 시 종합 호출이 fallback</li>
+              <li><b>출력 스키마 정규화</b>: 관찰 / 미흡 / 외부고려 / 판단 4섹션으로 통일</li>
+            </ul>
+          </p>
+          <div class="stage tradeoff">Trade-off</div>
+          <p class="stage-body">
+            LLM 호출 수가 늘어 비용 증가. 다만 <b>병렬 실행으로 wall-clock은 단일 호출과 비슷</b>하게 유지.
+            병합 단계 복잡도가 증가하지만, 그 대가로 결과가 사용자 검토 가능한 형태로 일관됨.
+          </p>
+          <div class="stage outcome">Outcome</div>
+          <p class="stage-body">
+            검토 누락이 줄어들고, 각 관점이 항상 보장됨.
+            추가로 다중 파일 검토는 별도 오케스트레이터로 분기해 확장.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROLLOUT -->
+  <section id="rollout">
+    <div class="sec-head">
+      <span class="n">04 · SAFE ROLLOUT</span>
+      <h2>데이터·인덱스 변경을 안전하게 배포하기</h2>
+    </div>
+    <p class="sec-sub">
+      RAG 시스템에서 가장 위험한 변경은 <b>인덱스 갱신</b>. 임베딩 모델·청킹 정책·코퍼스 추가가 동시에 일어나면
+      한 번의 잘못된 배포가 답변 품질을 크게 떨어뜨림. 그래서 <b>롤백 가능한 단계 배포</b>를 인프라 수준에서 강제.
+    </p>
+
+    <div class="case">
+      <div class="case-grid">
+        <div class="diagram">
+          <div class="title-row">
+            <span class="ti">rollout.mmd</span>
+            <span>No-traffic deploy · Smoke gate</span>
+          </div>
+          <div class="diagram-host" id="host-rollout">
+            <div class="empty-rendering"><span class="spinner"></span>다이어그램 렌더 중…</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="stage problem">Problem</div>
+          <p class="stage-body">
+            (1) 인덱스 빌드 실패가 운영 트래픽을 멈추면 안 됨.
+            (2) 임베딩이 일부 깨졌어도 200이 떨어지면 알아채기 어려움.
+            (3) 환경변수 변경이 트래픽에 잘못 반영되는 흔한 함정.
+          </p>
+          <div class="stage approach">Approach</div>
+          <p class="stage-body">
+            <ul>
+              <li><b>운영 ↔ 빌드 분리</b>: 수집/임베딩은 Cloud Run Job, 운영은 Cloud Run Service</li>
+              <li><b>DB 백업 → ingest → 새 이미지 → no-traffic 배포</b> 순으로 실패 시 즉시 롤백 가능</li>
+              <li><b>Smoke gate</b>: 새 리비전이 실제 답변 3건을 통과해야 100% 트래픽 전환</li>
+              <li><b>스냅샷 백업 자동화</b>: 매 배포 시 직전 DB를 별도 버킷에 보존</li>
+            </ul>
+          </p>
+          <div class="stage tradeoff">Trade-off</div>
+          <p class="stage-body">
+            배포 단계가 길어져 turnaround가 늘어남.
+            대신 잘못된 인덱스가 사용자에게 노출되는 사고가 구조적으로 차단됨 — RAG에서는 이 쪽이 비교 불가하게 중요.
+          </p>
+          <div class="stage outcome">Outcome</div>
+          <p class="stage-body">
+            인덱스를 자주, 부담 없이 갱신할 수 있게 됨.
+            새로운 코퍼스 추가나 청킹 정책 실험이 운영 리스크 없이 가능.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEARNINGS -->
+  <section id="learnings">
+    <div class="sec-head">
+      <span class="n">05 · WHAT I LEARNED</span>
+      <h2>이 시스템을 만들며 배운 것</h2>
+    </div>
+    <p class="sec-sub">
+      RAG는 "검색 + LLM"이라는 단순한 슬로건과 달리, <b>운영 가능한 검색 품질</b>을 만드는 게 본질이라는 걸 체감.
+      도메인 특성과 인프라 제약 사이에서 트레이드오프를 결정하는 일이 많았다.
+    </p>
+
+    <div class="pillars">
+      <div class="pillar">
+        <h3>검색은 다층화한다</h3>
+        <p>한 가지 검색 방식이 모든 질문 타입을 잘 풀어주지 않는다. 식별 표현·자연어·도메인 어휘는
+          서로 다른 검색기를 요구한다. 하나의 검색 서비스에 묶되 내부에서 분기하는 게 운영하기 좋다.</p>
+      </div>
+      <div class="pillar">
+        <h3>편향은 점수 정렬 다음에 잡는다</h3>
+        <p>코퍼스 분포가 비대칭이면 score-only top-k가 항상 다수 코퍼스를 뽑는다.
+          "코퍼스별 최소 보장" 같은 단순한 후처리가 가장 효과적이었다.</p>
+      </div>
+      <div class="pillar">
+        <h3>긴 호출은 분해해서 병렬화한다</h3>
+        <p>단일 호출의 한계를 피하려면 관점을 분해하고, 마지막에 병합 + 안전망 통합 호출을 둔다.
+          wall-clock은 비슷하면서도 누락이 크게 줄어든다.</p>
+      </div>
+      <div class="pillar">
+        <h3>RAG 배포는 DB 배포에 가깝다</h3>
+        <p>코드만 바꾸는 게 아니라 인덱스가 바뀐다. 백업·검증·트래픽 분리가 없으면
+          한 번의 실수가 답변 품질 회귀로 이어진다. CI/CD를 RAG에 맞게 다시 설계할 필요가 있었다.</p>
+      </div>
+      <div class="pillar">
+        <h3>관찰 가능성이 결국 품질을 만든다</h3>
+        <p>인용이 실제 청크에 존재하는지, top-k 분포가 어떤지, 어떤 질문에서 fallback이 발동하는지
+          —지표를 코드에 박아두는 것이 막연한 "프롬프트 튜닝"보다 빨랐다.</p>
+      </div>
+      <div class="pillar">
+        <h3>스키마 정규화가 UX의 절반</h3>
+        <p>LLM 출력은 매번 미묘하게 다른 모양으로 나온다. 응답 후처리에서 강한 스키마와 폴백을 두는 게,
+          프롬프트만 다듬는 것보다 안정적인 클라이언트 경험을 만든다.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 · Solo design and implementation</span>
+    <span><a href="#top">↑ Back to top</a></span>
+  </footer>
+
+</div>
+
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.esm.min.mjs";
+
+  // ---------------- Diagrams (sanitized: domain-only, no proprietary names/keys/numbers) ----------------
+  const DIAGRAMS = {
+    overview: `flowchart TB
+      classDef client fill:#FFE8C2,stroke:#D89B3A,color:#1f2937
+      classDef api fill:#FFF4B8,stroke:#C8A736,color:#1f2937
+      classDef core fill:#CFE3FF,stroke:#3B82F6,color:#1f2937
+      classDef ext fill:#E5D9FF,stroke:#7C5CFF,color:#1f2937
+      classDef store fill:#C6F0D6,stroke:#2D9D5E,color:#1f2937
+      classDef pipe fill:#FFD3C0,stroke:#E0653A,color:#1f2937
+
+      subgraph CLIENTS["Clients"]
+        Web["Web App"]:::client
+        Mobile["Mobile App"]:::client
+        Bot["Chat Bot"]:::client
+      end
+
+      subgraph API["API Gateway"]
+        direction TB
+        Chat["Q&A endpoint"]:::api
+        Review["Document review endpoint"]:::api
+        Search["Law / precedent search"]:::api
+      end
+
+      subgraph CORE["RAG Core"]
+        direction TB
+        Retrieval["Hybrid Retrieval<br/>(exact + lexical + vector)"]:::core
+        Answer["Grounded Answer<br/>(citation-validated)"]:::core
+        ReviewSvc["Multi-Chain Review<br/>(5 parallel perspectives)"]:::core
+      end
+
+      subgraph EXT["External"]
+        LLM["LLM API"]:::ext
+        LawAPI["Korean Law Open API"]:::ext
+      end
+
+      subgraph STORE["Storage"]
+        LawsDB[("Law Corpus<br/>(SQLite + FTS5)")]:::store
+        VecIdx[("Vector Index")]:::store
+        Blob[("Snapshot Bucket")]:::store
+      end
+
+      subgraph PIPE["Data Pipeline (batch, isolated from prod)"]
+        Sync["Collector<br/>(laws / rules / precedents)"]:::pipe
+        Ingest["Chunker + Embedder"]:::pipe
+        Rollout["Indexer + Deployer"]:::pipe
+      end
+
+      Web --> API
+      Mobile --> API
+      Bot --> API
+      Chat --> CORE
+      Review --> CORE
+      Search --> Retrieval
+
+      Retrieval --> LawsDB
+      Retrieval --> VecIdx
+      Retrieval --> LLM
+      Answer --> LLM
+      ReviewSvc --> LLM
+      Retrieval --> Answer
+      Retrieval --> ReviewSvc
+
+      LawAPI --> Sync
+      Sync --> Ingest
+      Ingest --> LLM
+      Ingest --> LawsDB
+      Ingest --> VecIdx
+      Ingest --> Blob
+      Rollout --> Blob
+      Rollout --> LawsDB`,
+
+    retrieval: `flowchart TB
+      classDef q fill:#FFE8C2,stroke:#D89B3A,color:#1f2937
+      classDef path fill:#CFE3FF,stroke:#3B82F6,color:#1f2937
+      classDef llm fill:#E5D9FF,stroke:#7C5CFF,color:#1f2937
+      classDef rank fill:#FFD3C0,stroke:#E0653A,color:#1f2937
+      classDef out fill:#C6F0D6,stroke:#2D9D5E,color:#1f2937
+
+      Q["Question"]:::q
+
+      subgraph S1["Stage 1: parallel (3 search + 2 LLM)"]
+        direction LR
+        Exact["Exact match<br/>(article-number regex<br/>+ law aliases)"]:::path
+        Lex["Lexical match<br/>(FTS5 + scoring)"]:::path
+        Vec["Vector match<br/>(ANN over embeddings)"]:::path
+        Intent["LLM: intent analysis"]:::llm
+        Expand["LLM: query expansion"]:::llm
+      end
+
+      KW["Merged keywords<br/>(intent ∪ expansions)"]:::rank
+
+      subgraph S2["Stage 2: re-search with expanded keywords"]
+        Lex2["Lexical (expanded)"]:::path
+        Vec2["Vector (expanded)"]:::path
+      end
+
+      Merge["Merge by chunk-id<br/>(keep higher score)"]:::rank
+      Filter["Score sort + min-score filter"]:::rank
+      Quota["Corpus-minimum quota<br/>(ensure rules / voluntary codes<br/>not crowded out by statutes)"]:::rank
+      Out["Final top-k chunks"]:::out
+
+      Q --> Exact
+      Q --> Lex
+      Q --> Vec
+      Q --> Intent
+      Q --> Expand
+      Intent --> KW
+      Expand --> KW
+      KW --> Lex2
+      KW --> Vec2
+      Exact --> Merge
+      Lex --> Merge
+      Vec --> Merge
+      Lex2 --> Merge
+      Vec2 --> Merge
+      Merge --> Filter --> Quota --> Out`,
+
+    review: `flowchart TB
+      classDef in fill:#FFE8C2,stroke:#D89B3A,color:#1f2937
+      classDef parse fill:#CFE3FF,stroke:#3B82F6,color:#1f2937
+      classDef chain fill:#E5D9FF,stroke:#7C5CFF,color:#1f2937
+      classDef rag fill:#FFF4B8,stroke:#C8A736,color:#1f2937
+      classDef merge fill:#FFD3C0,stroke:#E0653A,color:#1f2937
+      classDef out fill:#C6F0D6,stroke:#2D9D5E,color:#1f2937
+
+      Doc["Uploaded document(s)"]:::in
+      Extract["Text extraction<br/>(multi-format)"]:::parse
+      Parse["Clause parsing"]:::parse
+      Scan["Chain 1: Scan<br/>(per-clause summary + severity)"]:::chain
+      Map["Chain 1.5: Institutional mapping<br/>+ per-axis lookup queries"]:::chain
+      AxisRAG["Per-axis retrieval<br/>(law / rule / precedent chunks)"]:::rag
+      Budget["Evidence budgeting<br/>(distribute context by axis)"]:::rag
+
+      subgraph Parallel["Chains 2–5: parallel (ThreadPool)"]
+        Inst["Institutional review"]:::chain
+        Purp["Purpose alignment"]:::chain
+        Risk["Risk scenarios"]:::chain
+        Judg["Final judgment"]:::chain
+      end
+
+      Comp["Comprehensive call<br/>(fallback safety net)"]:::chain
+      Merge["Merge + schema normalize<br/>(observations / gaps /<br/>external / judgment)"]:::merge
+      Out["Structured review result"]:::out
+
+      Doc --> Extract --> Parse --> Scan --> Map --> AxisRAG --> Budget
+      Budget --> Inst
+      Budget --> Purp
+      Budget --> Risk
+      Budget --> Judg
+      Budget --> Comp
+      Inst --> Merge
+      Purp --> Merge
+      Risk --> Merge
+      Judg --> Merge
+      Comp --> Merge
+      Merge --> Out`,
+
+    rollout: `flowchart TB
+      classDef src fill:#FFE8C2,stroke:#D89B3A,color:#1f2937
+      classDef proc fill:#FFD3C0,stroke:#E0653A,color:#1f2937
+      classDef store fill:#C6F0D6,stroke:#2D9D5E,color:#1f2937
+      classDef roll fill:#FFF4B8,stroke:#C8A736,color:#1f2937
+      classDef gate fill:#E5D9FF,stroke:#7C5CFF,color:#1f2937
+      classDef prod fill:#CFE3FF,stroke:#3B82F6,color:#1f2937
+
+      Src[("Public Law API")]:::src
+      Sync["Collector (batch job)"]:::proc
+      Data[("Snapshot bucket<br/>(collected markdown)")]:::store
+      Backup[("Backup bucket<br/>(prior DB snapshots)")]:::store
+
+      subgraph Build["Build &amp; Rollout pipeline"]
+        DL["1. Download latest data + prior DB"]:::roll
+        Ingest["2. Chunk + embed → new index"]:::proc
+        Image["3. Build new image"]:::roll
+        NoTraffic["4. Deploy as no-traffic revision"]:::roll
+        Smoke{"5. Smoke gate<br/>(N golden queries pass?)"}:::gate
+        Shift["6. Shift traffic 100% → new"]:::roll
+        Save["7. Save new DB → backups"]:::roll
+      end
+
+      Prod[("Production service<br/>(serves users)")]:::prod
+      Alert["Alert channel"]:::roll
+
+      Src --> Sync --> Data
+      Data --> DL
+      Backup --> DL
+      DL --> Ingest --> Image --> NoTraffic --> Smoke
+      Smoke -- pass --> Shift --> Save --> Backup
+      Shift --> Prod
+      Smoke -- fail --> Alert
+      Shift -. notify .-> Alert`,
+  };
+
+  // ---------------- mermaid setup ----------------
+  const state = {
+    theme: localStorage.getItem("portfolio-theme") || "dark",
+  };
+
+  function initMermaid(theme) {
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: theme === "dark" ? "dark" : "default",
+      securityLevel: "loose",
+      fontFamily: 'ui-sans-serif, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif',
+      themeVariables: theme === "dark" ? {
+        background: "transparent",
+        primaryTextColor: "#1f2937",
+        lineColor: "#88a8ff",
+        textColor: "#eef0f6",
+        clusterBkg: "rgba(136,168,255,.06)",
+        clusterBorder: "#353c50",
+        edgeLabelBackground: "#12151d",
+      } : {
+        background: "transparent",
+        lineColor: "#2a4dff",
+      },
+      flowchart: { htmlLabels: true, curve: "basis", padding: 18, useMaxWidth: true },
+    });
+  }
+  initMermaid(state.theme);
+  document.documentElement.setAttribute("data-theme", state.theme);
+
+  let renderSeq = 0;
+  async function renderInto(key) {
+    const host = document.getElementById(`host-${key}`);
+    const src = DIAGRAMS[key];
+    if (!host || !src) return;
+    const id = `m-${key}-${++renderSeq}`;
+    try {
+      const { svg, bindFunctions } = await mermaid.render(id, src);
+      host.innerHTML = svg;
+      if (bindFunctions) bindFunctions(host);
+    } catch (e) {
+      host.innerHTML = `<div class="mermaid-error">Render failed: ${String(e && e.message || e).slice(0, 400)}</div>`;
+    }
+  }
+
+  async function renderAll() {
+    for (const k of Object.keys(DIAGRAMS)) await renderInto(k);
+  }
+  renderAll();
+
+  // ---------------- theme toggle ----------------
+  document.getElementById("theme-toggle").addEventListener("click", () => {
+    state.theme = state.theme === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", state.theme);
+    localStorage.setItem("portfolio-theme", state.theme);
+    initMermaid(state.theme);
+    // clear hosts and re-render
+    for (const k of Object.keys(DIAGRAMS)) {
+      const h = document.getElementById(`host-${k}`);
+      if (h) h.innerHTML = `<div class="empty-rendering"><span class="spinner"></span>다이어그램 렌더 중…</div>`;
+    }
+    renderAll();
+  });
+
+  // ---------------- scrollspy ----------------
+  const navLinks = Array.from(document.querySelectorAll(".nav-links a"));
+  const sections = navLinks
+    .map(a => document.querySelector(a.getAttribute("href")))
+    .filter(Boolean);
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = "#" + e.target.id;
+        navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === id));
+      }
+    });
+  }, { rootMargin: "-45% 0px -45% 0px" });
+  sections.forEach(s => obs.observe(s));
+</script>
+
+</body>
+</html>

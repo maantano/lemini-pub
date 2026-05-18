@@ -1,0 +1,164 @@
+Metadata-Version: 2.4
+Name: kr-law-rag-mvp
+Version: 0.1.0
+Summary: Minimum-cost Korean law RAG MVP
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi<1.0.0,>=0.115.0
+Requires-Dist: google-genai<2.0.0,>=1.11.0
+Requires-Dist: numpy<3.0.0,>=2.0.0
+Requires-Dist: olefile<1.0.0,>=0.46
+Requires-Dist: openpyxl<4.0.0,>=3.1.0
+Requires-Dist: pdfplumber<1.0.0,>=0.10.0
+Requires-Dist: pillow>=12.2.0
+Requires-Dist: pydantic<3.0.0,>=2.9.2
+Requires-Dist: pydantic-settings<3.0.0,>=2.6.1
+Requires-Dist: PyJWT<3.0.0,>=2.9.0
+Requires-Dist: pytesseract>=0.3.13
+Requires-Dist: python-docx<2.0.0,>=1.1.0
+Requires-Dist: python-dotenv<2.0.0,>=1.0.1
+Requires-Dist: python-multipart<1.0.0,>=0.0.9
+Requires-Dist: structlog<26.0.0,>=24.0.0
+Requires-Dist: uvicorn[standard]<1.0.0,>=0.34.0
+Provides-Extra: dev
+Requires-Dist: pytest<9.0.0,>=8.3.5; extra == "dev"
+Provides-Extra: slack
+Requires-Dist: slack-bolt<2.0.0,>=1.20.0; extra == "slack"
+Requires-Dist: slack-sdk<4.0.0,>=3.33.0; extra == "slack"
+Requires-Dist: httpx<1.0.0,>=0.27.0; extra == "slack"
+Requires-Dist: weasyprint<70.0,>=62.0; extra == "slack"
+Requires-Dist: aiohttp<4.0.0,>=3.9.0; extra == "slack"
+Provides-Extra: sync
+Requires-Dist: requests<3.0.0,>=2.31.0; extra == "sync"
+Requires-Dist: PyYAML<7.0,>=6.0; extra == "sync"
+Requires-Dist: google-cloud-storage<3.0.0,>=2.10.0; extra == "sync"
+
+# KR Law RAG MVP
+
+Minimum-cost monorepo for a Korean law evidence-first chatbot.
+
+## Stack
+
+- Web: Next.js on Cloudflare Pages Free or another static host
+- Mobile: Expo React Native on Expo Free / local build
+- API: FastAPI on Cloud Run
+- Data: SQLite artifact + embedding matrix artifact
+- AI: Gemini API with structured JSON output
+
+## Monorepo layout
+
+```text
+apps/
+  api/       FastAPI entrypoint and SQL migrations
+  web/       Next.js web MVP
+  mobile/    Expo mobile MVP
+  worker/    app-level ingest wrapper
+packages/
+  python/    parser, ingest, retrieval, chat orchestration
+data/sample/ sample markdown laws for local testing
+```
+
+## Quick start
+
+1. Copy `.env.example` to `.env`.
+   If you want artifacts somewhere else in production, set `ARTIFACT_DIR=/absolute/path`.
+   If you want precedent search, also set `LAW_API_KEY` to your 국가법령정보 공동활용 OC value.
+   Note that `law.go.kr` only responds from registered server IP/domain environments.
+2. Install JS dependencies.
+
+```bash
+pnpm install
+```
+
+3. Install Python dependencies.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e .[dev]
+```
+
+4. Build local law artifacts.
+
+```bash
+pnpm run ingest:sample
+```
+
+5. Run the API.
+
+```bash
+pnpm run api:dev
+```
+
+6. Run the web app.
+
+```bash
+pnpm --filter @kr-law-rag/web dev
+```
+
+7. Run the mobile app.
+
+```bash
+pnpm --filter @kr-law-rag/mobile start
+```
+
+## Sample ingest commands
+
+```bash
+.venv/bin/python -m worker.ingest.run --input ./data/sample --mode minimal
+.venv/bin/python -m worker.ingest.run --input ./data/sample/labor-standards-act.md --mode full
+.venv/bin/python -m worker.ingest.run --input ./data/sample --mode minimal --reindex
+```
+
+## Real archive ingest
+
+The parser also supports the Korean metadata format used in your real archive, for example:
+
+```text
+---
+제목: 근로기준법
+법령MST: 12345
+법령ID: 000001
+법령구분: 법률
+소관부처:
+- 고용노동부
+공포일자: '2024-01-01'
+시행일자: '2024-01-01'
+상태: 시행
+출처: https://www.law.go.kr/법령/...
+---
+```
+
+You can ingest a real ZIP directly without extracting it first:
+
+```bash
+.venv/bin/python -m worker.ingest.run --input /path/to/kr.zip --mode minimal --apply-schema
+```
+
+## Cost guardrails
+
+- `ENABLE_SERVER_CHAT_HISTORY=false` by default
+- `ENABLE_FULL_RETRIEVAL_LOG=false` by default
+- Raw markdown is never duplicated into the artifact DB
+- Search text is stored in FTS only, not duplicated in the base chunk table
+- Duplicate `law_id` entries are collapsed during ingest by keeping the latest effective version
+- Article segments are disabled by default
+- Appendix search is disabled by default to keep artifacts smaller
+- Ingest prints row counts and rough storage estimates after each run
+- If Gemini embeddings are unavailable, ingest still completes with lexical-only artifacts
+
+## Deploy notes
+
+- Web can be deployed to Cloudflare Pages Free or another static host
+- If the web app is hosted under a subpath instead of `/`, set `WEB_BASE_PATH` before building.
+  Example: `WEB_BASE_PATH=/kr-law-rag pnpm run build:web`
+- API is a single FastAPI service intended for Cloud Run with `min-instances=0`
+- Heavy ingest runs offline and produces `data/artifacts/laws.sqlite` plus embedding files
+- In production you can override the artifact location with `ARTIFACT_DIR`
+- Runtime search uses SQLite for exact/lexical matching and the embedding matrix file for vector similarity
+- With your current `kr.zip`, minimal mode produced about 4,206 documents, 153,913 article chunks, and a `laws.sqlite` artifact around 524 MB without vectors
+
+## Static preview
+
+- Do not open `apps/web/out/*.html` directly with `file://`; root-relative `/_next/...` assets will not load.
+- Use `pnpm run preview:web` from the repo root or deploy the `apps/web/out` directory to a static host.

@@ -1,0 +1,100 @@
+name: Deploy API to Cloud Run
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "apps/api/**"
+      - "packages/python/**"
+      - "pyproject.toml"
+      - "Dockerfile"
+      - ".github/workflows/deploy-api.yml"
+  workflow_dispatch:  # 수동 트리거도 허용
+
+env:
+  PROJECT_ID: ${{ vars.PROJECT_ID }}
+  REGION: asia-northeast3
+  SERVICE: lemini-api
+  ARTIFACT_BUCKET: lemini-law-artifacts
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # OIDC 인증
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          # 두 가지 중 하나 사용 (Secrets에 저장):
+          # 1) Workload Identity (권장): workload_identity_provider + service_account
+          # 2) Service Account Key JSON (간단): credentials_json
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Download law artifacts from GCS
+        run: |
+          mkdir -p data/artifacts
+          gsutil -m cp "gs://${{ env.ARTIFACT_BUCKET }}/laws.sqlite" data/artifacts/
+          gsutil -m cp "gs://${{ env.ARTIFACT_BUCKET }}/article_embeddings.npy" data/artifacts/
+          gsutil -m cp "gs://${{ env.ARTIFACT_BUCKET }}/article_embedding_ids.json" data/artifacts/
+          gsutil -m cp "gs://${{ env.ARTIFACT_BUCKET }}/manifest.json" data/artifacts/
+          echo "=== Downloaded artifacts ==="
+          ls -lh data/artifacts/
+
+      - name: Verify DB schema matches retrieval code
+        run: |
+          # 코드가 SELECT 하는 law_documents 컬럼이 DB에 존재하는지 검증.
+          # 누락 시 배포를 중단 — Cloud Run 런타임 500 을 사전 차단.
+          python3 - <<'PY'
+          import re, sqlite3, sys
+          from pathlib import Path
+
+          svc = Path("packages/python/src/law_rag_core/retrieval/service.py").read_text(encoding="utf-8")
+          required = sorted(set(re.findall(r"\bld\.([a-z_]+)\b", svc)))
+          print(f"[schema-check] retrieval/service.py references ld.* columns: {required}")
+
+          conn = sqlite3.connect("data/artifacts/laws.sqlite")
+          present = {row[1] for row in conn.execute("PRAGMA table_info(law_documents)")}
+          print(f"[schema-check] law_documents columns in GCS DB: {sorted(present)}")
+
+          missing = [c for c in required if c not in present]
+          if missing:
+              print(f"::error::GCS laws.sqlite is missing columns required by retrieval code: {missing}")
+              print("::error::Upload the latest laws.sqlite (with migrations applied) to GCS before deploying.")
+              sys.exit(1)
+          print("[schema-check] OK — all required columns present.")
+          PY
+
+      - name: Deploy to Cloud Run from source
+        run: |
+          gcloud run deploy ${{ env.SERVICE }} \
+            --source . \
+            --region ${{ env.REGION }} \
+            --platform managed \
+            --quiet
+
+      - name: Configure Cloud Run (max-instances, env vars)
+        run: |
+          gcloud run services update ${{ env.SERVICE }} \
+            --region ${{ env.REGION }} \
+            --max-instances 1 \
+            --update-env-vars ^@^STATE_DB_BUCKET=lemini-state-db@APP_ENV=prod@CORS_ALLOW_ORIGINS=${{ vars.CORS_ALLOW_ORIGINS }} \
+            --quiet
+
+      - name: Smoke test — verify artifacts are loaded
+        run: |
+          URL=$(gcloud run services describe ${{ env.SERVICE }} --region ${{ env.REGION }} --format='value(status.url)')
+          echo "Service URL: $URL"
+          HEALTH=$(curl -fsS "$URL/v1/health")
+          echo "$HEALTH"
+          # Fail if law_artifact is missing
+          echo "$HEALTH" | grep -q '"law_artifact":"ready"' || \
+            (echo "::error::law_artifact is NOT ready — deployment has no laws.sqlite" && exit 1)

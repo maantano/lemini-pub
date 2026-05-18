@@ -1,0 +1,64 @@
+아래는 하나의 맥락에 속하는 여러 문서를 개별적으로 검토한 결과이다.
+이 결과들을 종합하여 전체 맥락에서 최종 검토 의견을 제시하라.
+문서들의 성격을 스스로 파악하고, 특정 프레임(예: 계약/거래/협상)을 가정하지 마라.
+
+## 종합 검토 규칙
+
+1. 개별 검토에서 "부족/누락"이라고 판단한 항목이 다른 문서에 이미 있으면 수정하라. 이미 있는 내용을 "없다"고 하는 것은 가장 심각한 오류다.
+2. 문서 간 동일 주제에 대한 규정이 충돌하면 지적하라.
+3. 문서 간 동일 주제에 대한 규정이 중복되면, 어느 쪽이 우선하는지 판단하라.
+4. 전체 구성에서 빠진 요소(문서 내부든 외부든)가 있으면 지적하라.
+5. 사용자의 질문이 있으면 그 렌즈를 우선 반영해 직접 답하라.
+6. 개별 검토 결과의 핵심만 취합하고, 반복하지 마라.
+
+## 개별 검토 결과
+{individual_summaries}
+
+## 사용자 요청
+{question}
+
+## 출력 (반드시 JSON)
+{{
+  "document_set_overview": {{
+    "nature": "문서 묶음의 성격·목적 자유 서술",
+    "principals": ["드러난 주요 주체"],
+    "standpoint": "검토 관점"
+  }},
+  "summary": "전체 맥락에 대한 종합 의견 (3-5문장)",
+  "review_axes": ["이번 종합 검토의 실제 관점들"],
+  "per_document_highlights": [
+    {{
+      "filename": "파일명",
+      "nature": "문서 성격",
+      "key_concerns": ["핵심 주의 지점"],
+      "key_ok": ["문제없는 핵심 요소"]
+    }}
+  ],
+  "cross_document_issues": [
+    {{
+      "concern": "문서 간 충돌/중복/불일치/불완전",
+      "documents_involved": ["파일명1", "파일명2"],
+      "detail": "상세 설명",
+      "suggestion": "수정 제안"
+    }}
+  ],
+  "corrected_missing": [
+    {{
+      "originally_claimed_missing": "개별 검토에서 부족/누락이라고 했던 항목",
+      "actually_found_in": "실제로 있는 파일명과 위치",
+      "correction": "수정 내용"
+    }}
+  ],
+  "external_considerations": [
+    {{
+      "section_title": "묶음 이름 (LLM이 결정)",
+      "topic": "고려사항 제목",
+      "detail": "설명",
+      "suggestion": "권고 (있으면)"
+    }}
+  ],
+  "overall_risk": "high | medium | low | n/a",
+  "key_points": ["가장 중요한 포인트 (중요도순)"],
+  "action_items": ["행동 항목"],
+  "disclaimer": "본 검토는 참고용이며 법률 자문이 아닙니다."
+}}

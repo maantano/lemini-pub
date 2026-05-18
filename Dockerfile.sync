@@ -1,0 +1,33 @@
+FROM python:3.12-slim AS builder
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1
+
+WORKDIR /build
+COPY pyproject.toml README.md ./
+COPY packages/python/src ./packages/python/src
+
+# sync 파이프라인만 설치 (fastapi/weasyprint/cairo 등 불필요)
+RUN pip install --upgrade pip && pip install ".[sync]"
+
+# ────────────────────────────────────────────
+FROM python:3.12-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app:/app/packages/python/src \
+    WORKSPACE_ROOT=/tmp/sync
+
+WORKDIR /app
+
+COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+
+COPY packages/python/src ./packages/python/src
+
+# /tmp/sync 는 컨테이너 로컬 workspace. GCS 업로드 전 임시 저장소로만 사용.
+RUN mkdir -p /tmp/sync
+
+# 기본 명령 — Cloud Run Job 실행 시 --target 을 args 로 덮어씀
+ENTRYPOINT ["python", "-m", "worker.sync.run"]
+CMD ["--target", "all"]

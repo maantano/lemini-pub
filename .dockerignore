@@ -1,0 +1,14 @@
+.git
+.DS_Store
+.env
+.env.local
+.venv
+__pycache__
+.pytest_cache
+.next
+.expo
+node_modules
+apps/mobile
+apps/web
+tmp
+data/sample

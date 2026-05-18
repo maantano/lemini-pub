@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kr-law-rag-mvp"
+version = "0.1.0"
+description = "Minimum-cost Korean law RAG MVP"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115.0,<1.0.0",
+  "google-genai>=1.11.0,<2.0.0",
+  "numpy>=2.0.0,<3.0.0",
+  "olefile>=0.46,<1.0.0",
+  "openpyxl>=3.1.0,<4.0.0",
+  "pdfplumber>=0.10.0,<1.0.0",
+  "pillow>=12.2.0",
+  "pydantic>=2.9.2,<3.0.0",
+  "pydantic-settings>=2.6.1,<3.0.0",
+  "PyJWT>=2.9.0,<3.0.0",
+  "pytesseract>=0.3.13",
+  "python-docx>=1.1.0,<2.0.0",
+  "python-dotenv>=1.0.1,<2.0.0",
+  "python-multipart>=0.0.9,<1.0.0",
+  "structlog>=24.0.0,<26.0.0",
+  "uvicorn[standard]>=0.34.0,<1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3.5,<9.0.0"
+]
+slack = [
+  "slack-bolt>=1.20.0,<2.0.0",
+  "slack-sdk>=3.33.0,<4.0.0",
+  "httpx>=0.27.0,<1.0.0",
+  "weasyprint>=62.0,<70.0",
+  "aiohttp>=3.9.0,<4.0.0",
+]
+sync = [
+  "requests>=2.31.0,<3.0.0",
+  "PyYAML>=6.0,<7.0",
+  "google-cloud-storage>=2.10.0,<3.0.0",
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["packages/python/src"]

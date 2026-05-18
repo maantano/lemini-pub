@@ -1,0 +1,1295 @@
+{
+  "retrieval": {
+    "summary": {
+      "total_questions": 70,
+      "avg_law_recall": 0.814,
+      "avg_article_recall": 0.321,
+      "avg_precision": 0.326,
+      "avg_latency_ms": 2948,
+      "perfect_law_recall": 55,
+      "zero_law_recall": 11
+    },
+    "details": [
+      {
+        "id": 1,
+        "question": "전세금 안 돌려주면 어떻게 해?",
+        "law_recall": 1.0,
+        "article_recall": 0.3333333333333333,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 2785,
+        "retrieved_laws": [
+          "부가가치세법시행령",
+          "부동산거래신고등에관한법률시행규칙",
+          "사법보좌관규칙",
+          "임차권등기명령절차에관한규칙",
+          "주택임대차보호법"
+        ],
+        "expected_laws": [
+          "주택임대차보호법"
+        ]
+      },
+      {
+        "id": 2,
+        "question": "퇴사 후 임금은 언제까지 줘야 해?",
+        "law_recall": 1.0,
+        "article_recall": 1.0,
+        "precision": 0.5,
+        "retrieved_count": 6,
+        "latency_ms": 2399,
+        "retrieved_laws": [
+          "근로기준법",
+          "근로기준법시행령",
+          "선원법"
+        ],
+        "expected_laws": [
+          "근로기준법"
+        ]
+      },
+      {
+        "id": 3,
+        "question": "월세 밀렸을 때 퇴거 절차는?",
+        "law_recall": 0.5,
+        "article_recall": 0.3333333333333333,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 3371,
+        "retrieved_laws": [
+          "부동산거래신고등에관한법률시행규칙",
+          "주택임대차보호법",
+          "주택임대차보호법시행령"
+        ],
+        "expected_laws": [
+          "주택임대차보호법",
+          "민법"
+        ]
+      },
+      {
+        "id": 4,
+        "question": "음주운전 처벌 기준이 뭐야?",
+        "law_recall": 0.0,
+        "article_recall": 0.0,
+        "precision": 0.0,
+        "retrieved_count": 6,
+        "latency_ms": 2895,
+        "retrieved_laws": [
+          "공중위생관리법",
+          "국민투표법",
+          "도로교통법시행규칙",
+          "사행행위등규제및처벌특례법",
+          "인권보호수사규칙"
+        ],
+        "expected_laws": [
+          "도로교통법"
+        ]
+      },
+      {
+        "id": 5,
+        "question": "회사에서 부당해고 당하면 어떻게 해?",
+        "law_recall": 1.0,
+        "article_recall": 0.5,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 2287,
+        "retrieved_laws": [
+          "근로기준법",
+          "근로기준법시행규칙",
+          "금융지주회사법",
+          "농업협동조합법시행령",
+          "주식회사등의외부감사에관한법률"
+        ],
+        "expected_laws": [
+          "근로기준법"
+        ]
+      },
+      {
+        "id": 6,
+        "question": "이혼할 때 재산분할은 어떻게 돼?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.6666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 2361,
+        "retrieved_laws": [
+          "가사소송법",
+          "민법"
+        ],
+        "expected_laws": [
+          "민법"
+        ]
+      },
+      {
+        "id": 7,
+        "question": "교통사고 과실비율은 어떻게 정해?",
+        "law_recall": 1.0,
+        "article_recall": 0.5,
+        "precision": 0.16666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 2415,
+        "retrieved_laws": [
+          "도로교통법",
+          "도로교통법시행령",
+          "민법",
+          "여객자동차운수사업법",
+          "여객자동차운수사업법시행령"
+        ],
+        "expected_laws": [
+          "도로교통법"
+        ]
+      },
+      {
+        "id": 8,
+        "question": "사기죄 성립 요건이 뭐야?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 2361,
+        "retrieved_laws": [
+          "고용보험및산업재해보상보험의보험료징수등에관한법률시행령",
+          "도시개발법",
+          "독립유공자예우에관한법률시행령",
+          "정당법",
+          "형법"
+        ],
+        "expected_laws": [
+          "형법"
+        ]
+      },
+      {
+        "id": 9,
+        "question": "상가 임대차 보증금 보호 한도는?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.16666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 2582,
+        "retrieved_laws": [
+          "부동산거래신고등에관한법률시행규칙",
+          "상가건물임대차보호법",
+          "주택임대차보호법",
+          "지역상권상생및활성화에관한법률",
+          "채무자회생및파산에관한법률"
+        ],
+        "expected_laws": [
+          "상가건물임대차보호법"
+        ]
+      },
+      {
+        "id": 10,
+        "question": "최저임금 안 지키면 처벌받아?",
+        "law_recall": 1.0,
+        "article_recall": 0.5,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 2445,
+        "retrieved_laws": [
+          "근로기준법",
+          "선원법",
+          "최저임금법",
+          "최저임금법시행규칙"
+        ],
+        "expected_laws": [
+          "최저임금법"
+        ]
+      },
+      {
+        "id": 11,
+        "question": "명예훼손으로 고소하려면?",
+        "law_recall": 1.0,
+        "article_recall": 1.0,
+        "precision": 0.6666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 2380,
+        "retrieved_laws": [
+          "보안관찰법시행규칙",
+          "보안관찰법에따른군관계보안관찰처분에관한규칙",
+          "형법"
+        ],
+        "expected_laws": [
+          "형법"
+        ]
+      },
+      {
+        "id": 12,
+        "question": "아파트 층간소음 해결 방법은?",
+        "law_recall": 1.0,
+        "article_recall": 1.0,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 2590,
+        "retrieved_laws": [
+          "공동주택관리법",
+          "공동주택관리법시행령",
+          "소음ㆍ진동관리법시행령"
+        ],
+        "expected_laws": [
+          "공동주택관리법"
+        ]
+      },
+      {
+        "id": 13,
+        "question": "연차휴가 안 쓰면 수당 받을 수 있어?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.16666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 2457,
+        "retrieved_laws": [
+          "경찰대학설치법",
+          "근로기준법",
+          "근로기준법시행령",
+          "남녀고용평등과일ㆍ가정양립지원에관한법률",
+          "선원법"
+        ],
+        "expected_laws": [
+          "근로기준법"
+        ]
+      },
+      {
+        "id": 14,
+        "question": "개인정보 유출되면 어떻게 대응해?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.5,
+        "retrieved_count": 6,
+        "latency_ms": 2469,
+        "retrieved_laws": [
+          "개인정보보호법",
+          "개인정보보호법시행령",
+          "해상교통안전법"
+        ],
+        "expected_laws": [
+          "개인정보보호법"
+        ]
+      },
+      {
+        "id": 15,
+        "question": "온라인 쇼핑 환불 규정은?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 3445,
+        "retrieved_laws": [
+          "공무원제안규정",
+          "국민제안규정",
+          "자동차관리법시행규칙",
+          "전자상거래등에서의소비자보호에관한법률",
+          "전자상거래등에서의소비자보호에관한법률시행규칙"
+        ],
+        "expected_laws": [
+          "전자상거래등에서의소비자보호에관한법률"
+        ]
+      },
+      {
+        "id": 16,
+        "question": "폭행죄 처벌 수위는?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.5,
+        "retrieved_count": 6,
+        "latency_ms": 2324,
+        "retrieved_laws": [
+          "군형법",
+          "먹는물관리법시행규칙",
+          "항공보안법",
+          "형법"
+        ],
+        "expected_laws": [
+          "형법"
+        ]
+      },
+      {
+        "id": 17,
+        "question": "퇴직금 계산은 어떻게 해?",
+        "law_recall": 1.0,
+        "article_recall": 1.0,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 2421,
+        "retrieved_laws": [
+          "국회법",
+          "근로자퇴직급여보장법",
+          "근로자퇴직급여보장법시행령",
+          "민사소송법"
+        ],
+        "expected_laws": [
+          "근로자퇴직급여보장법"
+        ]
+      },
+      {
+        "id": 18,
+        "question": "임대인이 보증금에서 수리비 빼도 돼?",
+        "law_recall": 0.5,
+        "article_recall": 0.5,
+        "precision": 0.5,
+        "retrieved_count": 6,
+        "latency_ms": 2557,
+        "retrieved_laws": [
+          "상가건물임대차보호법",
+          "주택임대차보호법",
+          "주택임대차보호법시행령",
+          "채무자회생및파산에관한법률"
+        ],
+        "expected_laws": [
+          "민법",
+          "주택임대차보호법"
+        ]
+      },
+      {
+        "id": 19,
+        "question": "직장 내 성희롱 신고하려면?",
+        "law_recall": 1.0,
+        "article_recall": 0.5,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 3296,
+        "retrieved_laws": [
+          "남녀고용평등과일ㆍ가정양립지원에관한법률",
+          "남녀고용평등과일ㆍ가정양립지원에관한법률시행규칙"
+        ],
+        "expected_laws": [
+          "남녀고용평등과일ㆍ가정양립지원에관한법률"
+        ]
+      },
+      {
+        "id": 20,
+        "question": "채무자가 돈 안 갚으면 법적 절차는?",
+        "law_recall": 0.0,
+        "article_recall": 0.0,
+        "precision": 0.0,
+        "retrieved_count": 6,
+        "latency_ms": 2531,
+        "retrieved_laws": [
+          "근로복지기본법시행령",
+          "디자인보호법",
+          "사법보좌관규칙",
+          "소송촉진등에관한특례법",
+          "채무자회생및파산에관한법률"
+        ],
+        "expected_laws": [
+          "민사소송법",
+          "민사집행법"
+        ]
+      },
+      {
+        "id": 21,
+        "question": "전세 계약 갱신 요구권이 뭐야?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 2690,
+        "retrieved_laws": [
+          "민법",
+          "부동산거래신고등에관한법률시행규칙",
+          "우체국보험특별회계법시행규칙",
+          "주택임대차보호법",
+          "주택임대차보호법시행령"
+        ],
+        "expected_laws": [
+          "주택임대차보호법"
+        ]
+      },
+      {
+        "id": 22,
+        "question": "임차권등기명령 신청하려면 어떻게 해?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.16666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 1915,
+        "retrieved_laws": [
+          "부동산거래신고등에관한법률시행규칙",
+          "상가건물임대차보호법",
+          "임차권등기명령절차에관한규칙",
+          "주택임대차보호법",
+          "채무자회생및파산에관한법률"
+        ],
+        "expected_laws": [
+          "주택임대차보호법"
+        ]
+      },
+      {
+        "id": 23,
+        "question": "전세 사기 당했을 때 보증금 보호 방법은?",
+        "law_recall": 1.0,
+        "article_recall": 0.6666666666666666,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 3085,
+        "retrieved_laws": [
+          "부동산거래신고등에관한법률시행규칙",
+          "주택임대차계약증서상의확정일자부여및임대차정보제공에관한규칙",
+          "주택임대차보호법",
+          "주택임대차보호법시행령"
+        ],
+        "expected_laws": [
+          "주택임대차보호법"
+        ]
+      },
+      {
+        "id": 24,
+        "question": "야간근무 수당은 얼마야?",
+        "law_recall": 1.0,
+        "article_recall": 1.0,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 2742,
+        "retrieved_laws": [
+          "고용보험법시행령",
+          "국회의원의보좌직원과수당등에관한법률",
+          "근로기준법",
+          "소득세법시행령"
+        ],
+        "expected_laws": [
+          "근로기준법"
+        ]
+      },
+      {
+        "id": 25,
+        "question": "주 52시간 넘기면 처벌받아?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.16666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 2591,
+        "retrieved_laws": [
+          "근로기준법",
+          "근로기준법시행령",
+          "보험업법",
+          "자동차손해배상보장법시행령",
+          "해사안전기본법시행령"
+        ],
+        "expected_laws": [
+          "근로기준법"
+        ]
+      },
+      {
+        "id": 26,
+        "question": "출산휴가 기간이랑 급여는?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.16666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 3488,
+        "retrieved_laws": [
+          "고용보험법",
+          "근로기준법",
+          "근로기준법시행령",
+          "남녀고용평등과일ㆍ가정양립지원에관한법률시행규칙",
+          "선원법"
+        ],
+        "expected_laws": [
+          "근로기준법"
+        ]
+      },
+      {
+        "id": 27,
+        "question": "해고 예고는 며칠 전에 해야 해?",
+        "law_recall": 1.0,
+        "article_recall": 1.0,
+        "precision": 0.5,
+        "retrieved_count": 6,
+        "latency_ms": 2348,
+        "retrieved_laws": [
+          "건설기술진흥법시행령",
+          "근로기준법",
+          "근로기준법시행령",
+          "농지법시행규칙"
+        ],
+        "expected_laws": [
+          "근로기준법"
+        ]
+      },
+      {
+        "id": 28,
+        "question": "산업재해 보상 절차는?",
+        "law_recall": 1.0,
+        "article_recall": 0.5,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 2326,
+        "retrieved_laws": [
+          "건전가정의례준칙",
+          "공무원재해보상법",
+          "민주화운동관련자명예회복및보상등에관한법률시행령",
+          "산업안전보건법",
+          "산업재해보상보험법"
+        ],
+        "expected_laws": [
+          "산업재해보상보험법"
+        ]
+      },
+      {
+        "id": 29,
+        "question": "무면허 운전 처벌은?",
+        "law_recall": 1.0,
+        "article_recall": 0.5,
+        "precision": 0.5,
+        "retrieved_count": 6,
+        "latency_ms": 2959,
+        "retrieved_laws": [
+          "도로교통법",
+          "수의사법",
+          "조세범처벌법",
+          "형법"
+        ],
+        "expected_laws": [
+          "도로교통법"
+        ]
+      },
+      {
+        "id": 30,
+        "question": "뺑소니 처벌 기준은?",
+        "law_recall": 0.5,
+        "article_recall": 0.0,
+        "precision": 0.5,
+        "retrieved_count": 6,
+        "latency_ms": 3693,
+        "retrieved_laws": [
+          "사행행위등규제및처벌특례법시행규칙",
+          "사행행위등규제및처벌특례법시행령",
+          "성폭력범죄의처벌등에관한특례법시행령",
+          "특정범죄가중처벌등에관한법률"
+        ],
+        "expected_laws": [
+          "특정범죄가중처벌등에관한법률",
+          "도로교통법"
+        ]
+      },
+      {
+        "id": 31,
+        "question": "자동차 보험 미가입 벌금은?",
+        "law_recall": 0.0,
+        "article_recall": 0.5,
+        "precision": 0.0,
+        "retrieved_count": 6,
+        "latency_ms": 2540,
+        "retrieved_laws": [
+          "옥외광고물등의관리와옥외광고산업진흥에관한법률",
+          "옥외광고물등의관리와옥외광고산업진흥에관한법률시행령",
+          "자동차손해배상보장법시행령",
+          "정보통신진흥및융합활성화등에관한특별법시행령",
+          "형법"
+        ],
+        "expected_laws": [
+          "자동차손해배상보장법"
+        ]
+      },
+      {
+        "id": 32,
+        "question": "절도죄 처벌은?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.6666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 2547,
+        "retrieved_laws": [
+          "중대재해처벌등에관한법률",
+          "특정범죄가중처벌등에관한법률",
+          "형법"
+        ],
+        "expected_laws": [
+          "형법"
+        ]
+      },
+      {
+        "id": 33,
+        "question": "상해죄와 폭행죄 차이는?",
+        "law_recall": 1.0,
+        "article_recall": 0.5,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 2800,
+        "retrieved_laws": [
+          "군형법",
+          "도로의구조ㆍ시설기준에관한규칙",
+          "장애인복지법",
+          "항공보안법",
+          "형법"
+        ],
+        "expected_laws": [
+          "형법"
+        ]
+      },
+      {
+        "id": 34,
+        "question": "스토킹 처벌 기준은?",
+        "law_recall": 1.0,
+        "article_recall": 0.5,
+        "precision": 0.6666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 3210,
+        "retrieved_laws": [
+          "스토킹방지및피해자보호등에관한법률",
+          "스토킹범죄의처벌등에관한법률",
+          "스토킹범죄의처벌등에관한법률시행령"
+        ],
+        "expected_laws": [
+          "스토킹범죄의처벌등에관한법률"
+        ]
+      },
+      {
+        "id": 35,
+        "question": "모욕죄 성립 조건은?",
+        "law_recall": 1.0,
+        "article_recall": 1.0,
+        "precision": 0.5,
+        "retrieved_count": 6,
+        "latency_ms": 2399,
+        "retrieved_laws": [
+          "수산업법시행규칙",
+          "우편환법",
+          "전기용품및생활용품안전관리법시행규칙",
+          "형법"
+        ],
+        "expected_laws": [
+          "형법"
+        ]
+      },
+      {
+        "id": 36,
+        "question": "양육권은 어떻게 결정돼?",
+        "law_recall": 0.0,
+        "article_recall": 0.0,
+        "precision": 0.0,
+        "retrieved_count": 6,
+        "latency_ms": 2455,
+        "retrieved_laws": [
+          "가사소송법",
+          "국제사법",
+          "양육비이행확보및지원에관한법률",
+          "해상교통안전법",
+          "헤이그국제아동탈취협약이행에관한법률시행규칙"
+        ],
+        "expected_laws": [
+          "민법"
+        ]
+      },
+      {
+        "id": 37,
+        "question": "상속 포기 절차는?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.8333333333333334,
+        "retrieved_count": 6,
+        "latency_ms": 2610,
+        "retrieved_laws": [
+          "민법",
+          "주류면허등에관한법률시행령"
+        ],
+        "expected_laws": [
+          "민법"
+        ]
+      },
+      {
+        "id": 38,
+        "question": "유언장 작성 방법과 요건은?",
+        "law_recall": 1.0,
+        "article_recall": 0.6666666666666666,
+        "precision": 0.5,
+        "retrieved_count": 6,
+        "latency_ms": 2646,
+        "retrieved_laws": [
+          "과학관의설립ㆍ운영및육성에관한법률시행령",
+          "민법",
+          "전기통신사업법시행령",
+          "폐기물관리법시행규칙"
+        ],
+        "expected_laws": [
+          "민법"
+        ]
+      },
+      {
+        "id": 39,
+        "question": "가정폭력 피해자 보호 조치는?",
+        "law_recall": 0.0,
+        "article_recall": 0.0,
+        "precision": 0.0,
+        "retrieved_count": 6,
+        "latency_ms": 3526,
+        "retrieved_laws": [
+          "가정폭력방지및피해자보호등에관한법률",
+          "법원이재판권을가지는군인등의범죄에대한수사절차등에관한규정",
+          "아동학대범죄의처벌등에관한특례법",
+          "양성평등기본법"
+        ],
+        "expected_laws": [
+          "가정폭력범죄의처벌등에관한특례법"
+        ]
+      },
+      {
+        "id": 40,
+        "question": "제품 하자 보증 기간은?",
+        "law_recall": 0.5,
+        "article_recall": 0.0,
+        "precision": 0.16666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 7717,
+        "retrieved_laws": [
+          "공동주택관리법",
+          "소방시설공사업법시행령",
+          "소비자기본법",
+          "소비자기본법시행령",
+          "집합건물의소유및관리에관한법률"
+        ],
+        "expected_laws": [
+          "소비자기본법",
+          "민법"
+        ]
+      },
+      {
+        "id": 41,
+        "question": "학원 환불 규정은?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 3341,
+        "retrieved_laws": [
+          "국민건강보험법",
+          "자동차관리법시행규칙",
+          "채무자회생및파산에관한법률",
+          "학원의설립ㆍ운영및과외교습에관한법률",
+          "학원의설립ㆍ운영및과외교습에관한법률시행령"
+        ],
+        "expected_laws": [
+          "학원의설립ㆍ운영및과외교습에관한법률"
+        ]
+      },
+      {
+        "id": 42,
+        "question": "CCTV 설치 기준은?",
+        "law_recall": 0.0,
+        "article_recall": 1.0,
+        "precision": 0.0,
+        "retrieved_count": 6,
+        "latency_ms": 2868,
+        "retrieved_laws": [
+          "개인정보보호법시행령",
+          "인신매매등방지및피해자보호등에관한법률시행령",
+          "지하수법시행규칙",
+          "해양경찰장비도입및관리에관한법률시행규칙"
+        ],
+        "expected_laws": [
+          "개인정보보호법"
+        ]
+      },
+      {
+        "id": 43,
+        "question": "개인정보 삭제 요청 방법은?",
+        "law_recall": 1.0,
+        "article_recall": 1.0,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 3681,
+        "retrieved_laws": [
+          "개인정보보호법",
+          "개인정보보호법시행령",
+          "범죄피해자보호법시행령",
+          "여객자동차운수사업법시행규칙"
+        ],
+        "expected_laws": [
+          "개인정보보호법"
+        ]
+      },
+      {
+        "id": 44,
+        "question": "부동산 소유권 이전 등기 절차는?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.5,
+        "retrieved_count": 6,
+        "latency_ms": 2617,
+        "retrieved_laws": [
+          "국세징수법시행규칙",
+          "부동산등기법",
+          "인지세법시행규칙"
+        ],
+        "expected_laws": [
+          "부동산등기법"
+        ]
+      },
+      {
+        "id": 45,
+        "question": "양도소득세 비과세 요건은?",
+        "law_recall": 1.0,
+        "article_recall": 1.0,
+        "precision": 0.5,
+        "retrieved_count": 6,
+        "latency_ms": 7073,
+        "retrieved_laws": [
+          "과학관의설립ㆍ운영및육성에관한법률시행령",
+          "소득세법",
+          "소득세법시행규칙",
+          "폐기물관리법시행규칙"
+        ],
+        "expected_laws": [
+          "소득세법"
+        ]
+      },
+      {
+        "id": 46,
+        "question": "증여세 면제 한도는?",
+        "law_recall": 1.0,
+        "article_recall": 1.0,
+        "precision": 0.5,
+        "retrieved_count": 6,
+        "latency_ms": 2351,
+        "retrieved_laws": [
+          "농어촌전기공급사업촉진법시행령",
+          "상속세및증여세법",
+          "전기공사공제조합법",
+          "전기공사공제조합법시행령"
+        ],
+        "expected_laws": [
+          "상속세및증여세법"
+        ]
+      },
+      {
+        "id": 47,
+        "question": "소액사건 소송 절차는?",
+        "law_recall": 1.0,
+        "article_recall": 0.5,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 2890,
+        "retrieved_laws": [
+          "건전가정의례준칙",
+          "관세법시행령",
+          "별정직공무원인사규정",
+          "사법보좌관규칙",
+          "소액사건심판법"
+        ],
+        "expected_laws": [
+          "소액사건심판법"
+        ]
+      },
+      {
+        "id": 48,
+        "question": "내용증명 효력과 작성법은?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.5,
+        "retrieved_count": 6,
+        "latency_ms": 2434,
+        "retrieved_laws": [
+          "민간임대주택에관한특별법",
+          "민법",
+          "우편법시행규칙"
+        ],
+        "expected_laws": [
+          "민법"
+        ]
+      },
+      {
+        "id": 49,
+        "question": "운전면허 취소 기준은?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.16666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 2772,
+        "retrieved_laws": [
+          "국민체육진흥법시행규칙",
+          "도로교통법",
+          "도로교통법시행규칙"
+        ],
+        "expected_laws": [
+          "도로교통법"
+        ]
+      },
+      {
+        "id": 50,
+        "question": "건축 허가 없이 증축하면?",
+        "law_recall": 0.0,
+        "article_recall": 0.0,
+        "precision": 0.0,
+        "retrieved_count": 6,
+        "latency_ms": 2756,
+        "retrieved_laws": [
+          "가덕도신공항건설을위한특별법",
+          "도시가스사업법시행령",
+          "수도권정비계획법시행령",
+          "연구개발특구의육성에관한특별법",
+          "한옥등건축자산의진흥에관한법률"
+        ],
+        "expected_laws": [
+          "건축법"
+        ]
+      },
+      {
+        "id": 51,
+        "question": "전월세 신고 안 하면 과태료 얼마야?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.5,
+        "retrieved_count": 6,
+        "latency_ms": 3394,
+        "retrieved_laws": [
+          "부동산거래신고등에관한법률",
+          "부동산거래신고등에관한법률시행규칙",
+          "부동산거래신고등에관한법률시행령"
+        ],
+        "expected_laws": [
+          "부동산거래신고등에관한법률"
+        ]
+      },
+      {
+        "id": 52,
+        "question": "근로계약서 안 쓰면 어떻게 돼?",
+        "law_recall": 1.0,
+        "article_recall": 1.0,
+        "precision": 0.16666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 2347,
+        "retrieved_laws": [
+          "고용보험법시행령",
+          "근로기준법",
+          "근로기준법시행규칙",
+          "근로기준법시행령",
+          "외국인근로자의고용등에관한법률시행령"
+        ],
+        "expected_laws": [
+          "근로기준법"
+        ]
+      },
+      {
+        "id": 53,
+        "question": "직장 내 괴롭힘 신고하면?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 2762,
+        "retrieved_laws": [
+          "거창사건등관련자의명예회복에관한특별조치법",
+          "근로기준법",
+          "남녀고용평등과일ㆍ가정양립지원에관한법률",
+          "노근리사건희생자심사및명예회복에관한특별법",
+          "장애인차별금지및권리구제등에관한법률"
+        ],
+        "expected_laws": [
+          "근로기준법"
+        ]
+      },
+      {
+        "id": 54,
+        "question": "횡령죄와 배임죄 차이는?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 2663,
+        "retrieved_laws": [
+          "국가통합교통체계효율화법시행규칙",
+          "도로의구조ㆍ시설기준에관한규칙",
+          "지방자치단체회계기준에관한규칙",
+          "항만재개발및주변지역발전에관한법률시행규칙",
+          "형법"
+        ],
+        "expected_laws": [
+          "형법"
+        ]
+      },
+      {
+        "id": 55,
+        "question": "아동학대 처벌 기준은?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.6666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 3235,
+        "retrieved_laws": [
+          "아동복지법시행령",
+          "아동학대범죄의처벌등에관한특례법",
+          "아동학대범죄의처벌등에관한특례법시행규칙"
+        ],
+        "expected_laws": [
+          "아동학대범죄의처벌등에관한특례법"
+        ]
+      },
+      {
+        "id": 56,
+        "question": "혼인신고 절차와 요건은?",
+        "law_recall": 0.0,
+        "article_recall": 0.0,
+        "precision": 0.0,
+        "retrieved_count": 6,
+        "latency_ms": 3222,
+        "retrieved_laws": [
+          "가족관계의등록등에관한법률",
+          "국내입양에관한특별법의시행에관한대법원규칙",
+          "국적법",
+          "제주4ㆍ3사건진상규명및희생자명예회복에관한특별법에의한가족관계등록사무처리규칙",
+          "한국산업은행법"
+        ],
+        "expected_laws": [
+          "민법"
+        ]
+      },
+      {
+        "id": 57,
+        "question": "협의이혼 절차는?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 3425,
+        "retrieved_laws": [
+          "가사소송법",
+          "건전가정의례준칙",
+          "민법",
+          "별정직공무원인사규정",
+          "선거관리위원회별정직공무원규칙"
+        ],
+        "expected_laws": [
+          "민법"
+        ]
+      },
+      {
+        "id": 58,
+        "question": "여행사 계약 취소하면 위약금은?",
+        "law_recall": 0.0,
+        "article_recall": 0.0,
+        "precision": 0.0,
+        "retrieved_count": 6,
+        "latency_ms": 2675,
+        "retrieved_laws": [
+          "농림수산업자신용보증법시행령",
+          "민법",
+          "방문판매등에관한법률",
+          "소비자기본법시행령",
+          "항만운송사업법시행규칙"
+        ],
+        "expected_laws": [
+          "관광진흥법"
+        ]
+      },
+      {
+        "id": 59,
+        "question": "유튜브 영상 저작권 침해 기준은?",
+        "law_recall": 1.0,
+        "article_recall": 0.5,
+        "precision": 0.8333333333333334,
+        "retrieved_count": 6,
+        "latency_ms": 2768,
+        "retrieved_laws": [
+          "저작권법",
+          "행정기관의공모전운영에관한규정"
+        ],
+        "expected_laws": [
+          "저작권법"
+        ]
+      },
+      {
+        "id": 60,
+        "question": "소프트웨어 불법 복제 처벌은?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 3909,
+        "retrieved_laws": [
+          "만화진흥에관한법률",
+          "소프트웨어진흥법",
+          "저작권법",
+          "저작권법시행령",
+          "형법"
+        ],
+        "expected_laws": [
+          "저작권법"
+        ]
+      },
+      {
+        "id": 61,
+        "question": "보증금 돌려받을 때 확정일자 효력은?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.16666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 1974,
+        "retrieved_laws": [
+          "상가건물임대차계약서상의확정일자부여및임대차정보제공에관한규칙",
+          "상가건물임대차보호법시행령",
+          "주택임대차계약증서상의확정일자부여및임대차정보제공에관한규칙",
+          "주택임대차보호법",
+          "주택임대차보호법시행령"
+        ],
+        "expected_laws": [
+          "주택임대차보호법"
+        ]
+      },
+      {
+        "id": 62,
+        "question": "파견근로자 차별 금지 규정은?",
+        "law_recall": 1.0,
+        "article_recall": 1.0,
+        "precision": 0.5,
+        "retrieved_count": 6,
+        "latency_ms": 4087,
+        "retrieved_laws": [
+          "기간제및단시간근로자보호등에관한법률",
+          "외국인근로자의고용등에관한법률",
+          "전기통신사업법",
+          "파견근로자보호등에관한법률"
+        ],
+        "expected_laws": [
+          "파견근로자보호등에관한법률"
+        ]
+      },
+      {
+        "id": 63,
+        "question": "신호위반 벌점은 몇 점이야?",
+        "law_recall": 0.0,
+        "article_recall": 0.0,
+        "precision": 0.0,
+        "retrieved_count": 6,
+        "latency_ms": 2442,
+        "retrieved_laws": [
+          "건설산업기본법시행령",
+          "도로교통법",
+          "도로교통법시행령",
+          "여객자동차운수사업법시행령"
+        ],
+        "expected_laws": [
+          "도로교통법시행규칙"
+        ]
+      },
+      {
+        "id": 64,
+        "question": "손해배상 청구 소멸시효는?",
+        "law_recall": 1.0,
+        "article_recall": 1.0,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 2718,
+        "retrieved_laws": [
+          "민법",
+          "신탁법",
+          "중소기업협동조합법",
+          "진폐의예방과진폐근로자의보호등에관한법률",
+          "한국은행통화안정증권법"
+        ],
+        "expected_laws": [
+          "민법"
+        ]
+      },
+      {
+        "id": 65,
+        "question": "주민등록증 분실 신고 방법은?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.16666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 3299,
+        "retrieved_laws": [
+          "건축법시행규칙",
+          "여권법시행규칙",
+          "전기통신사업법",
+          "주민등록법",
+          "주민등록법시행령"
+        ],
+        "expected_laws": [
+          "주민등록법"
+        ]
+      },
+      {
+        "id": 66,
+        "question": "음란물 유포 처벌은?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.16666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 4531,
+        "retrieved_laws": [
+          "5ㆍ18민주화운동등에관한특별법",
+          "성폭력범죄의처벌등에관한특례법",
+          "성폭력범죄의처벌등에관한특례법시행령",
+          "일제하일본군위안부피해자에대한보호ㆍ지원및기념사업등에관한법률",
+          "정보통신망이용촉진및정보보호등에관한법률"
+        ],
+        "expected_laws": [
+          "정보통신망이용촉진및정보보호등에관한법률"
+        ]
+      },
+      {
+        "id": 67,
+        "question": "육아휴직 기간과 급여는?",
+        "law_recall": 1.0,
+        "article_recall": 0.5,
+        "precision": 0.16666666666666666,
+        "retrieved_count": 6,
+        "latency_ms": 3470,
+        "retrieved_laws": [
+          "고용보험법",
+          "근로기준법",
+          "근로기준법시행령",
+          "남녀고용평등과일ㆍ가정양립지원에관한법률",
+          "남녀고용평등과일ㆍ가정양립지원에관한법률시행규칙"
+        ],
+        "expected_laws": [
+          "남녀고용평등과일ㆍ가정양립지원에관한법률"
+        ]
+      },
+      {
+        "id": 68,
+        "question": "종합소득세 신고 안 하면?",
+        "law_recall": 0.0,
+        "article_recall": 0.0,
+        "precision": 0.0,
+        "retrieved_count": 6,
+        "latency_ms": 2723,
+        "retrieved_laws": [
+          "관광진흥법",
+          "국세기본법시행령",
+          "근로자퇴직급여보장법시행령",
+          "소득세법시행령",
+          "출입국관리법시행령"
+        ],
+        "expected_laws": [
+          "소득세법"
+        ]
+      },
+      {
+        "id": 69,
+        "question": "재건축 조합 설립 요건은?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.3333333333333333,
+        "retrieved_count": 6,
+        "latency_ms": 2763,
+        "retrieved_laws": [
+          "과학관의설립ㆍ운영및육성에관한법률시행령",
+          "농어촌정비법시행령",
+          "도시및주거환경정비법",
+          "도심복합개발지원에관한법률",
+          "새마을금고법"
+        ],
+        "expected_laws": [
+          "도시및주거환경정비법"
+        ]
+      },
+      {
+        "id": 70,
+        "question": "연대보증인 책임 범위는?",
+        "law_recall": 1.0,
+        "article_recall": 0.0,
+        "precision": 0.5,
+        "retrieved_count": 6,
+        "latency_ms": 2556,
+        "retrieved_laws": [
+          "민법",
+          "산업기술혁신촉진법시행령",
+          "여신전문금융업법시행령",
+          "정보통신진흥및융합활성화등에관한특별법시행령"
+        ],
+        "expected_laws": [
+          "민법"
+        ]
+      }
+    ]
+  }
+}

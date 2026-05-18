@@ -1,0 +1,820 @@
+[
+  {
+    "id": 1,
+    "category": "부동산/임대차",
+    "question": "전세금 안 돌려주면 어떻게 해?",
+    "expected_laws": [
+      "주택임대차보호법"
+    ],
+    "expected_articles": [
+      "3조",
+      "3조의2",
+      "3조의3"
+    ]
+  },
+  {
+    "id": 2,
+    "category": "노동",
+    "question": "퇴사 후 임금은 언제까지 줘야 해?",
+    "expected_laws": [
+      "근로기준법"
+    ],
+    "expected_articles": [
+      "36조"
+    ]
+  },
+  {
+    "id": 3,
+    "category": "부동산/임대차",
+    "question": "월세 밀렸을 때 퇴거 절차는?",
+    "expected_laws": [
+      "주택임대차보호법",
+      "민법"
+    ],
+    "expected_articles": [
+      "6조",
+      "6조의3",
+      "640조"
+    ]
+  },
+  {
+    "id": 4,
+    "category": "교통",
+    "question": "음주운전 처벌 기준이 뭐야?",
+    "expected_laws": [
+      "도로교통법"
+    ],
+    "expected_articles": [
+      "44조",
+      "148조의2"
+    ]
+  },
+  {
+    "id": 5,
+    "category": "노동",
+    "question": "회사에서 부당해고 당하면 어떻게 해?",
+    "expected_laws": [
+      "근로기준법"
+    ],
+    "expected_articles": [
+      "23조",
+      "28조"
+    ]
+  },
+  {
+    "id": 6,
+    "category": "가족",
+    "question": "이혼할 때 재산분할은 어떻게 돼?",
+    "expected_laws": [
+      "민법"
+    ],
+    "expected_articles": [
+      "839조의2"
+    ]
+  },
+  {
+    "id": 7,
+    "category": "교통",
+    "question": "교통사고 과실비율은 어떻게 정해?",
+    "expected_laws": [
+      "도로교통법"
+    ],
+    "expected_articles": [
+      "48조",
+      "49조"
+    ]
+  },
+  {
+    "id": 8,
+    "category": "형사",
+    "question": "사기죄 성립 요건이 뭐야?",
+    "expected_laws": [
+      "형법"
+    ],
+    "expected_articles": [
+      "347조"
+    ]
+  },
+  {
+    "id": 9,
+    "category": "부동산/임대차",
+    "question": "상가 임대차 보증금 보호 한도는?",
+    "expected_laws": [
+      "상가건물 임대차보호법"
+    ],
+    "expected_articles": [
+      "2조",
+      "14조"
+    ]
+  },
+  {
+    "id": 10,
+    "category": "노동",
+    "question": "최저임금 안 지키면 처벌받아?",
+    "expected_laws": [
+      "최저임금법"
+    ],
+    "expected_articles": [
+      "6조",
+      "28조"
+    ]
+  },
+  {
+    "id": 11,
+    "category": "형사",
+    "question": "명예훼손으로 고소하려면?",
+    "expected_laws": [
+      "형법"
+    ],
+    "expected_articles": [
+      "307조",
+      "309조"
+    ]
+  },
+  {
+    "id": 12,
+    "category": "부동산/주거",
+    "question": "아파트 층간소음 해결 방법은?",
+    "expected_laws": [
+      "공동주택관리법"
+    ],
+    "expected_articles": [
+      "20조"
+    ]
+  },
+  {
+    "id": 13,
+    "category": "노동",
+    "question": "연차휴가 안 쓰면 수당 받을 수 있어?",
+    "expected_laws": [
+      "근로기준법"
+    ],
+    "expected_articles": [
+      "60조",
+      "61조"
+    ]
+  },
+  {
+    "id": 14,
+    "category": "개인정보",
+    "question": "개인정보 유출되면 어떻게 대응해?",
+    "expected_laws": [
+      "개인정보 보호법"
+    ],
+    "expected_articles": [
+      "34조",
+      "39조"
+    ]
+  },
+  {
+    "id": 15,
+    "category": "소비자",
+    "question": "온라인 쇼핑 환불 규정은?",
+    "expected_laws": [
+      "전자상거래 등에서의 소비자보호에 관한 법률"
+    ],
+    "expected_articles": [
+      "17조"
+    ]
+  },
+  {
+    "id": 16,
+    "category": "형사",
+    "question": "폭행죄 처벌 수위는?",
+    "expected_laws": [
+      "형법"
+    ],
+    "expected_articles": [
+      "260조"
+    ]
+  },
+  {
+    "id": 17,
+    "category": "노동",
+    "question": "퇴직금 계산은 어떻게 해?",
+    "expected_laws": [
+      "근로자퇴직급여 보장법"
+    ],
+    "expected_articles": [
+      "8조"
+    ]
+  },
+  {
+    "id": 18,
+    "category": "부동산/임대차",
+    "question": "임대인이 보증금에서 수리비 빼도 돼?",
+    "expected_laws": [
+      "민법",
+      "주택임대차보호법"
+    ],
+    "expected_articles": [
+      "623조",
+      "3조"
+    ]
+  },
+  {
+    "id": 19,
+    "category": "노동",
+    "question": "직장 내 성희롱 신고하려면?",
+    "expected_laws": [
+      "남녀고용평등과 일ㆍ가정 양립 지원에 관한 법률"
+    ],
+    "expected_articles": [
+      "12조",
+      "14조"
+    ]
+  },
+  {
+    "id": 20,
+    "category": "민사",
+    "question": "채무자가 돈 안 갚으면 법적 절차는?",
+    "expected_laws": [
+      "민사소송법",
+      "민사집행법"
+    ],
+    "expected_articles": [
+      "56조",
+      "24조"
+    ]
+  },
+  {
+    "id": 21,
+    "category": "부동산/임대차",
+    "question": "전세 계약 갱신 요구권이 뭐야?",
+    "expected_laws": [
+      "주택임대차보호법"
+    ],
+    "expected_articles": [
+      "6조의3"
+    ]
+  },
+  {
+    "id": 22,
+    "category": "부동산/임대차",
+    "question": "임차권등기명령 신청하려면 어떻게 해?",
+    "expected_laws": [
+      "주택임대차보호법"
+    ],
+    "expected_articles": [
+      "3조의3"
+    ]
+  },
+  {
+    "id": 23,
+    "category": "부동산/임대차",
+    "question": "전세 사기 당했을 때 보증금 보호 방법은?",
+    "expected_laws": [
+      "주택임대차보호법"
+    ],
+    "expected_articles": [
+      "3조",
+      "3조의2",
+      "8조"
+    ]
+  },
+  {
+    "id": 24,
+    "category": "노동",
+    "question": "야간근무 수당은 얼마야?",
+    "expected_laws": [
+      "근로기준법"
+    ],
+    "expected_articles": [
+      "56조"
+    ]
+  },
+  {
+    "id": 25,
+    "category": "노동",
+    "question": "주 52시간 넘기면 처벌받아?",
+    "expected_laws": [
+      "근로기준법"
+    ],
+    "expected_articles": [
+      "50조",
+      "53조",
+      "110조"
+    ]
+  },
+  {
+    "id": 26,
+    "category": "노동",
+    "question": "출산휴가 기간이랑 급여는?",
+    "expected_laws": [
+      "근로기준법"
+    ],
+    "expected_articles": [
+      "74조"
+    ]
+  },
+  {
+    "id": 27,
+    "category": "노동",
+    "question": "해고 예고는 며칠 전에 해야 해?",
+    "expected_laws": [
+      "근로기준법"
+    ],
+    "expected_articles": [
+      "26조"
+    ]
+  },
+  {
+    "id": 28,
+    "category": "노동",
+    "question": "산업재해 보상 절차는?",
+    "expected_laws": [
+      "산업재해보상보험법"
+    ],
+    "expected_articles": [
+      "36조",
+      "37조"
+    ]
+  },
+  {
+    "id": 29,
+    "category": "교통",
+    "question": "무면허 운전 처벌은?",
+    "expected_laws": [
+      "도로교통법"
+    ],
+    "expected_articles": [
+      "43조",
+      "152조"
+    ]
+  },
+  {
+    "id": 30,
+    "category": "교통",
+    "question": "뺑소니 처벌 기준은?",
+    "expected_laws": [
+      "특정범죄 가중처벌 등에 관한 법률",
+      "도로교통법"
+    ],
+    "expected_articles": [
+      "5조의3",
+      "54조"
+    ]
+  },
+  {
+    "id": 31,
+    "category": "교통",
+    "question": "자동차 보험 미가입 벌금은?",
+    "expected_laws": [
+      "자동차손해배상 보장법"
+    ],
+    "expected_articles": [
+      "5조",
+      "46조"
+    ]
+  },
+  {
+    "id": 32,
+    "category": "형사",
+    "question": "절도죄 처벌은?",
+    "expected_laws": [
+      "형법"
+    ],
+    "expected_articles": [
+      "329조"
+    ]
+  },
+  {
+    "id": 33,
+    "category": "형사",
+    "question": "상해죄와 폭행죄 차이는?",
+    "expected_laws": [
+      "형법"
+    ],
+    "expected_articles": [
+      "257조",
+      "260조"
+    ]
+  },
+  {
+    "id": 34,
+    "category": "형사",
+    "question": "스토킹 처벌 기준은?",
+    "expected_laws": [
+      "스토킹범죄의 처벌 등에 관한 법률"
+    ],
+    "expected_articles": [
+      "2조",
+      "18조"
+    ]
+  },
+  {
+    "id": 35,
+    "category": "형사",
+    "question": "모욕죄 성립 조건은?",
+    "expected_laws": [
+      "형법"
+    ],
+    "expected_articles": [
+      "311조"
+    ]
+  },
+  {
+    "id": 36,
+    "category": "가족",
+    "question": "양육권은 어떻게 결정돼?",
+    "expected_laws": [
+      "민법"
+    ],
+    "expected_articles": [
+      "837조",
+      "837조의2"
+    ]
+  },
+  {
+    "id": 37,
+    "category": "가족",
+    "question": "상속 포기 절차는?",
+    "expected_laws": [
+      "민법"
+    ],
+    "expected_articles": [
+      "1019조",
+      "1041조"
+    ]
+  },
+  {
+    "id": 38,
+    "category": "가족",
+    "question": "유언장 작성 방법과 요건은?",
+    "expected_laws": [
+      "민법"
+    ],
+    "expected_articles": [
+      "1065조",
+      "1066조",
+      "1068조"
+    ]
+  },
+  {
+    "id": 39,
+    "category": "가족",
+    "question": "가정폭력 피해자 보호 조치는?",
+    "expected_laws": [
+      "가정폭력범죄의 처벌 등에 관한 특례법"
+    ],
+    "expected_articles": [
+      "29조",
+      "55조"
+    ]
+  },
+  {
+    "id": 40,
+    "category": "소비자",
+    "question": "제품 하자 보증 기간은?",
+    "expected_laws": [
+      "소비자기본법",
+      "민법"
+    ],
+    "expected_articles": [
+      "19조",
+      "580조"
+    ]
+  },
+  {
+    "id": 41,
+    "category": "소비자",
+    "question": "학원 환불 규정은?",
+    "expected_laws": [
+      "학원의 설립ㆍ운영 및 과외교습에 관한 법률"
+    ],
+    "expected_articles": [
+      "18조"
+    ]
+  },
+  {
+    "id": 42,
+    "category": "개인정보",
+    "question": "CCTV 설치 기준은?",
+    "expected_laws": [
+      "개인정보 보호법"
+    ],
+    "expected_articles": [
+      "25조"
+    ]
+  },
+  {
+    "id": 43,
+    "category": "개인정보",
+    "question": "개인정보 삭제 요청 방법은?",
+    "expected_laws": [
+      "개인정보 보호법"
+    ],
+    "expected_articles": [
+      "36조"
+    ]
+  },
+  {
+    "id": 44,
+    "category": "부동산/등기",
+    "question": "부동산 소유권 이전 등기 절차는?",
+    "expected_laws": [
+      "부동산등기법"
+    ],
+    "expected_articles": [
+      "23조"
+    ]
+  },
+  {
+    "id": 45,
+    "category": "세금",
+    "question": "양도소득세 비과세 요건은?",
+    "expected_laws": [
+      "소득세법"
+    ],
+    "expected_articles": [
+      "89조"
+    ]
+  },
+  {
+    "id": 46,
+    "category": "세금",
+    "question": "증여세 면제 한도는?",
+    "expected_laws": [
+      "상속세 및 증여세법"
+    ],
+    "expected_articles": [
+      "53조"
+    ]
+  },
+  {
+    "id": 47,
+    "category": "민사",
+    "question": "소액사건 소송 절차는?",
+    "expected_laws": [
+      "소액사건심판법"
+    ],
+    "expected_articles": [
+      "2조",
+      "5조의2"
+    ]
+  },
+  {
+    "id": 48,
+    "category": "민사",
+    "question": "내용증명 효력과 작성법은?",
+    "expected_laws": [
+      "민법"
+    ],
+    "expected_articles": [
+      "111조"
+    ]
+  },
+  {
+    "id": 49,
+    "category": "행정",
+    "question": "운전면허 취소 기준은?",
+    "expected_laws": [
+      "도로교통법"
+    ],
+    "expected_articles": [
+      "93조"
+    ]
+  },
+  {
+    "id": 50,
+    "category": "행정",
+    "question": "건축 허가 없이 증축하면?",
+    "expected_laws": [
+      "건축법"
+    ],
+    "expected_articles": [
+      "11조",
+      "110조"
+    ]
+  },
+  {
+    "id": 51,
+    "category": "부동산/임대차",
+    "question": "전월세 신고 안 하면 과태료 얼마야?",
+    "expected_laws": [
+      "부동산 거래신고 등에 관한 법률"
+    ],
+    "expected_articles": [
+      "6조의2",
+      "28조"
+    ]
+  },
+  {
+    "id": 52,
+    "category": "노동",
+    "question": "근로계약서 안 쓰면 어떻게 돼?",
+    "expected_laws": [
+      "근로기준법"
+    ],
+    "expected_articles": [
+      "17조"
+    ]
+  },
+  {
+    "id": 53,
+    "category": "노동",
+    "question": "직장 내 괴롭힘 신고하면?",
+    "expected_laws": [
+      "근로기준법"
+    ],
+    "expected_articles": [
+      "76조의2",
+      "76조의3"
+    ]
+  },
+  {
+    "id": 54,
+    "category": "형사",
+    "question": "횡령죄와 배임죄 차이는?",
+    "expected_laws": [
+      "형법"
+    ],
+    "expected_articles": [
+      "355조",
+      "356조"
+    ]
+  },
+  {
+    "id": 55,
+    "category": "형사",
+    "question": "아동학대 처벌 기준은?",
+    "expected_laws": [
+      "아동학대범죄의 처벌 등에 관한 특례법"
+    ],
+    "expected_articles": [
+      "10조"
+    ]
+  },
+  {
+    "id": 56,
+    "category": "가족",
+    "question": "혼인신고 절차와 요건은?",
+    "expected_laws": [
+      "민법"
+    ],
+    "expected_articles": [
+      "812조",
+      "813조"
+    ]
+  },
+  {
+    "id": 57,
+    "category": "가족",
+    "question": "협의이혼 절차는?",
+    "expected_laws": [
+      "민법"
+    ],
+    "expected_articles": [
+      "834조",
+      "836조의2"
+    ]
+  },
+  {
+    "id": 58,
+    "category": "소비자",
+    "question": "여행사 계약 취소하면 위약금은?",
+    "expected_laws": [
+      "관광진흥법"
+    ],
+    "expected_articles": [
+      "14조"
+    ]
+  },
+  {
+    "id": 59,
+    "category": "IT/저작권",
+    "question": "유튜브 영상 저작권 침해 기준은?",
+    "expected_laws": [
+      "저작권법"
+    ],
+    "expected_articles": [
+      "2조",
+      "136조"
+    ]
+  },
+  {
+    "id": 60,
+    "category": "IT/저작권",
+    "question": "소프트웨어 불법 복제 처벌은?",
+    "expected_laws": [
+      "저작권법"
+    ],
+    "expected_articles": [
+      "136조"
+    ]
+  },
+  {
+    "id": 61,
+    "category": "부동산/임대차",
+    "question": "보증금 돌려받을 때 확정일자 효력은?",
+    "expected_laws": [
+      "주택임대차보호법"
+    ],
+    "expected_articles": [
+      "3조의2"
+    ]
+  },
+  {
+    "id": 62,
+    "category": "노동",
+    "question": "파견근로자 차별 금지 규정은?",
+    "expected_laws": [
+      "파견근로자 보호 등에 관한 법률"
+    ],
+    "expected_articles": [
+      "21조"
+    ]
+  },
+  {
+    "id": 63,
+    "category": "교통",
+    "question": "신호위반 벌점은 몇 점이야?",
+    "expected_laws": [
+      "도로교통법 시행규칙"
+    ],
+    "expected_articles": [
+      "91조"
+    ]
+  },
+  {
+    "id": 64,
+    "category": "민사",
+    "question": "손해배상 청구 소멸시효는?",
+    "expected_laws": [
+      "민법"
+    ],
+    "expected_articles": [
+      "766조"
+    ]
+  },
+  {
+    "id": 65,
+    "category": "행정",
+    "question": "주민등록증 분실 신고 방법은?",
+    "expected_laws": [
+      "주민등록법"
+    ],
+    "expected_articles": [
+      "27조의2"
+    ]
+  },
+  {
+    "id": 66,
+    "category": "형사",
+    "question": "음란물 유포 처벌은?",
+    "expected_laws": [
+      "정보통신망 이용촉진 및 정보보호 등에 관한 법률"
+    ],
+    "expected_articles": [
+      "44조의7",
+      "74조"
+    ]
+  },
+  {
+    "id": 67,
+    "category": "노동",
+    "question": "육아휴직 기간과 급여는?",
+    "expected_laws": [
+      "남녀고용평등과 일ㆍ가정 양립 지원에 관한 법률"
+    ],
+    "expected_articles": [
+      "19조",
+      "19조의2"
+    ]
+  },
+  {
+    "id": 68,
+    "category": "세금",
+    "question": "종합소득세 신고 안 하면?",
+    "expected_laws": [
+      "소득세법"
+    ],
+    "expected_articles": [
+      "70조",
+      "81조"
+    ]
+  },
+  {
+    "id": 69,
+    "category": "부동산/주거",
+    "question": "재건축 조합 설립 요건은?",
+    "expected_laws": [
+      "도시 및 주거환경정비법"
+    ],
+    "expected_articles": [
+      "35조"
+    ]
+  },
+  {
+    "id": 70,
+    "category": "민사",
+    "question": "연대보증인 책임 범위는?",
+    "expected_laws": [
+      "민법"
+    ],
+    "expected_articles": [
+      "413조",
+      "437조"
+    ]
+  }
+]
